@@ -12,5 +12,7 @@ public interface GoodsService {
 
     Long register(GoodsDTO goodsDTO);
 
-    GoodsDTO get(Long pno);
+    GoodsDTO get(Long gno);
+
+    void modify(GoodsDTO goodsDTO);
 }

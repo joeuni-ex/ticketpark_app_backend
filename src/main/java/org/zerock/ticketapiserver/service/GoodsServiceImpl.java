@@ -101,7 +101,42 @@ public class GoodsServiceImpl implements GoodsService {
         return entityToDto(goods);
     }
 
+    @Override
+    public void modify(GoodsDTO goodsDTO) {
 
+        //조회
+        Optional<Goods> result = goodsRepository.findById(goodsDTO.getGno());
+
+        Goods goods = result.orElseThrow();
+        //변경 내용 반영
+        goods.changeTitle(goodsDTO.getTitle());
+        goods.changeGdesc(goodsDTO.getGdesc());
+        goods.changePlace(goodsDTO.getPlace());
+        goods.changeAge(goodsDTO.getAge());
+        goods.changeGenre(goodsDTO.getGenre());
+        goods.changeTime(goodsDTO.getTime());
+        goods.changeDel(goodsDTO.isDelFlag());
+
+        //이미지 처리
+
+        //이미지 가져오기
+        List<String> uploadFileNames = goodsDTO.getUploadFileNames();
+
+        //목록 비우기
+        goods.clearList();
+
+        if(uploadFileNames != null && !uploadFileNames.isEmpty()){
+
+            uploadFileNames.forEach(uploadNmae -> {
+                goods.addImageString(uploadNmae);
+            });
+
+        }
+
+        //저장
+        goodsRepository.save(goods);
+
+    }
 
 
     //dto를 entity로 변환

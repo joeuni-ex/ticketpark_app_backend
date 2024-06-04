@@ -1,7 +1,6 @@
 package org.zerock.ticketapiserver.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.ticketapiserver.dto.GoodsDTO;
 import org.zerock.ticketapiserver.dto.PageRequestDTO;
@@ -14,12 +13,10 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 @RestController
@@ -72,6 +69,46 @@ public class GoodsController {
   public GoodsDTO read(@PathVariable("gno") Long gno){
 
     return goodsService.get(gno);
+
+  }
+
+  //수정
+  @PutMapping("/{gno}")
+  public Map<String, String> modify(@PathVariable Long gno, GoodsDTO goodsDTO){
+
+    //업로드 저장
+    goodsDTO.setGno(gno);
+
+    //old product Database saved Product
+    GoodsDTO oldProductDTO = goodsService.get(gno);
+
+    //file upload
+    List<MultipartFile> files = goodsDTO.getFiles();
+    List<String> currentUploadFileNames = fileUtil.saveFiles(files);
+
+    //keep files String
+    List<String> uploadedFileNames = goodsDTO.getUploadFileNames();
+
+    if(currentUploadFileNames != null && !currentUploadFileNames.isEmpty()){
+
+      uploadedFileNames.addAll(currentUploadFileNames);
+
+    }
+
+    goodsService.modify(goodsDTO);
+
+    List<String> oldFileNames = oldProductDTO.getUploadFileNames();
+
+    if(oldFileNames != null && oldFileNames.size() > 0){
+
+      List<String> removeFiles =
+              oldFileNames.stream().filter(fileName -> uploadedFileNames.indexOf(fileName) == -1 ).collect(Collectors.toList());
+
+      fileUtil.deleteFiles(removeFiles);
+    }
+
+
+    return Map.of("RESULT","SUCCESS");
 
   }
 
