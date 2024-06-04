@@ -9,8 +9,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class GoodsImage {
 
     private String fileName;
