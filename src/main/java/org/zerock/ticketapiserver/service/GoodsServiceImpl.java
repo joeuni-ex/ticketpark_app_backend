@@ -75,4 +75,45 @@ public class GoodsServiceImpl implements GoodsService {
                 .build();
     }
 
+    //추가
+    @Override
+    public Long register(GoodsDTO goodsDTO) {
+        Goods goods = dtoToEntity(goodsDTO);
+
+        log.info("------------------------------");
+        log.info(goods);
+        log.info(goods.getImageList());
+
+        Long gno = goodsRepository.save(goods).getGno();
+
+        return gno;
+    }
+
+
+    //dto를 entity로 변환
+    private Goods dtoToEntity(GoodsDTO goodsDTO){
+
+        Goods goods = Goods.builder()
+                .gno(goodsDTO.getGno())
+                .title(goodsDTO.getTitle())
+                .gdesc(goodsDTO.getGdesc())
+                .place(goodsDTO.getPlace())
+                .age(goodsDTO.getAge())
+                .time(goodsDTO.getTime())
+                .genre(goodsDTO.getGenre())
+                .build();
+
+        //업로드가 끝나면 나오는 uploadFileNames을
+        List<String> uploadFileNames = goodsDTO.getUploadFileNames();
+
+        if(uploadFileNames == null || uploadFileNames.isEmpty()){
+            return goods;
+        }
+
+        uploadFileNames.forEach(fileName ->{
+            goods.addImageString(fileName);
+        });
+
+        return goods;
+    }
 }

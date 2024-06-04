@@ -34,7 +34,7 @@ public class GoodsController {
 
 
   @PostMapping("/")
-  public Map<String,String> register(GoodsDTO goodsDTO) {
+  public Map<String,Long> register(GoodsDTO goodsDTO) {
 
     log.info("register " + goodsDTO);
 
@@ -46,7 +46,9 @@ public class GoodsController {
 
     log.info(uploadedFileNames);
 
-    return Map.of("RESULT","SUCCESS");
+    Long gno = goodsService.register(goodsDTO);
+
+    return Map.of("RESULT",gno);
   }
   
 
@@ -64,4 +66,6 @@ public class GoodsController {
     return goodsService.getList(pageRequestDTO);
 
   }
+
+
 }

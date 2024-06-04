@@ -10,4 +10,5 @@ public interface GoodsService {
 
     PageResponseDTO<GoodsDTO> getList(PageRequestDTO pageRequestDTO);
 
+    Long register(GoodsDTO goodsDTO);
 }
