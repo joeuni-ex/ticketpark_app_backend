@@ -39,7 +39,7 @@ public class GoodsController {
 
     List<String> uploadedFileNames = fileUtil.saveFiles(files);
 
-    goodsDTO.setUploadedFileNames(uploadedFileNames);
+    goodsDTO.setUploadFileNames(uploadedFileNames);
 
     log.info(uploadedFileNames);
 

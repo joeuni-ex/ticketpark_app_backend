@@ -40,6 +40,6 @@ public class GoodsDTO {
 
     //조회 시 사용
     @Builder.Default
-    private List<String> uploadedFileNames = new ArrayList<>();
+    private List<String> uploadFileNames = new ArrayList<>();
 
 }
