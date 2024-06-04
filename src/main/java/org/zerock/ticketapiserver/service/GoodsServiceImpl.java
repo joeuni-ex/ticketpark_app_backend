@@ -15,6 +15,7 @@ import org.zerock.ticketapiserver.dto.PageResponseDTO;
 import org.zerock.ticketapiserver.repository.GoodsRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,6 +90,19 @@ public class GoodsServiceImpl implements GoodsService {
         return gno;
     }
 
+    //조회
+    @Override
+    public GoodsDTO get(Long gno) {
+
+        Optional<Goods> result = goodsRepository.findById(gno);
+
+        Goods goods = result.orElseThrow();
+
+        return entityToDto(goods);
+    }
+
+
+
 
     //dto를 entity로 변환
     private Goods dtoToEntity(GoodsDTO goodsDTO){
@@ -115,5 +129,32 @@ public class GoodsServiceImpl implements GoodsService {
         });
 
         return goods;
+    }
+
+    //entitiy->dto 변환 (조회 시 사용)
+    private GoodsDTO entityToDto(Goods goods){
+        GoodsDTO goodsDTO = GoodsDTO.builder()
+                .gno(goods.getGno())
+                .title(goods.getTitle())
+                .gdesc(goods.getGdesc())
+                .place(goods.getPlace())
+                .age(goods.getAge())
+                .time(goods.getTime())
+                .genre(goods.getGenre())
+                .delFlag(goods.isDelFlag())
+                .build();
+
+        List<GoodsImage> imageList = goods.getImageList();
+
+        if(imageList == null || imageList.isEmpty()){
+            return goodsDTO;
+        }
+        //상품이미지를 문자열로 바꿈
+        List<String> fileNameList = imageList.stream().map(goodsImage ->
+                goodsImage.getFileName()).toList();
+
+        goodsDTO.setUploadFileNames(fileNameList);
+
+        return goodsDTO;
     }
 }

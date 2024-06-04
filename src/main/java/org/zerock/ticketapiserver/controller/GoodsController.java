@@ -67,5 +67,13 @@ public class GoodsController {
 
   }
 
+  //조회
+  @GetMapping("/{gno}")
+  public GoodsDTO read(@PathVariable("gno") Long gno){
+
+    return goodsService.get(gno);
+
+  }
+
 
 }
