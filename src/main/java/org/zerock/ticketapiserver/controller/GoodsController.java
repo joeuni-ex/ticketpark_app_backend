@@ -4,6 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.ticketapiserver.dto.GoodsDTO;
+import org.zerock.ticketapiserver.dto.PageRequestDTO;
+import org.zerock.ticketapiserver.dto.PageResponseDTO;
+import org.zerock.ticketapiserver.service.GoodsService;
 import org.zerock.ticketapiserver.util.CustomFileUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -27,11 +30,11 @@ public class GoodsController {
 
   private final CustomFileUtil fileUtil;
 
+  private final GoodsService goodsService;
+
 
   @PostMapping("/")
   public Map<String,String> register(GoodsDTO goodsDTO) {
-    
-    log.info("=========save========");
 
     log.info("register " + goodsDTO);
 
@@ -52,5 +55,13 @@ public class GoodsController {
   @GetMapping("/view/{fileName}")
   public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName){
       return fileUtil.getFile(fileName);
+  }
+
+  //파일 목록 조회
+  @GetMapping("/list")
+  public PageResponseDTO<GoodsDTO> list(PageRequestDTO pageRequestDTO) {
+
+    return goodsService.getList(pageRequestDTO);
+
   }
 }
