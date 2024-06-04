@@ -1,5 +1,7 @@
 package org.zerock.ticketapiserver.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,4 +22,7 @@ public interface GoodsRepository extends JpaRepository<Goods,Long> {
     @Query("update Goods g set g.delFlag = :delFlag where g.gno = :gno")
     void updateToDelete(@Param("gno") Long gno, @Param("delFlag") boolean flag);
 
+    //상품 목록(상품과 상품 이미지 , 페이지 타입으로
+    @Query("select g,gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false ")
+    Page<Object[]> selectList(Pageable pageable);
 }

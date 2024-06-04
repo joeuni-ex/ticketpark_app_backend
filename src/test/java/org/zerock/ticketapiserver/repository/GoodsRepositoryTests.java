@@ -7,9 +7,14 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.zerock.ticketapiserver.domain.Goods;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,22 +29,25 @@ public class GoodsRepositoryTests {
     @Test
     public void testInsert(){
 
-        Goods goods = Goods.builder()
-                .title("Test")
-                .gdesc("Test Desc")
-                .age(15)
-                .time(120)
-                .place("Test Place")
-                .genre("concert")
-                .build();
+        for(int i=0; i<10; i++){
+            Goods goods = Goods.builder()
+                    .title("Test")
+                    .gdesc("Test Desc")
+                    .age(15)
+                    .time(120)
+                    .place("Test Place")
+                    .genre("concert")
+                    .build();
 
 
-        goods.addImageString(UUID.randomUUID()+"_"+"IMAGE1.jpg");
+            goods.addImageString(UUID.randomUUID()+"_"+"IMAGE1.jpg");
 
-        goods.addImageString(UUID.randomUUID()+"_"+"IMAGE2.jpg");
+            goods.addImageString(UUID.randomUUID()+"_"+"IMAGE2.jpg");
 
 
-        goodsRepository.save(goods);
+            goodsRepository.save(goods);
+        }
+
     }
 
 
@@ -88,5 +96,12 @@ public class GoodsRepositoryTests {
         goodsRepository.save(goods);
     }
 
+    @Test
+    public void testList(){
+        Pageable pageable = PageRequest.of(0,10, Sort.by("gno").descending());
 
+        Page<Object[]> result = goodsRepository.selectList(pageable);
+
+        result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
+    }
 }
