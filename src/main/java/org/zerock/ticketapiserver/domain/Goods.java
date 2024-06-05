@@ -21,7 +21,7 @@ public class Goods {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gno;
 
-    @Column(length = 500,nullable = false)
+    @Column(length = 500)
     private  String title;
 
     private String place;

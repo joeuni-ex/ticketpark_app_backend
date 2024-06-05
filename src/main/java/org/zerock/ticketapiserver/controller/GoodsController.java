@@ -65,13 +65,14 @@ public class GoodsController {
   }
 
   //조회
-  @CrossOrigin(origins = "http://localhost:3000")
   @GetMapping("/{gno}")
   public GoodsDTO read(@PathVariable("gno") Long gno){
 
     return goodsService.get(gno);
 
   }
+
+
 
   //수정
   @PutMapping("/{gno}")
