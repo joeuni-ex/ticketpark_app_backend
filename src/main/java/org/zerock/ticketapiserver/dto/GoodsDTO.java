@@ -24,6 +24,11 @@ public class GoodsDTO {
 
     private String place;
 
+    private String startDate;
+
+    private String endDate;
+
+
     private  String gdesc;
 
     private  int time;

@@ -37,6 +37,8 @@ public class GoodsServiceTests {
                 .title("새로운 콘서트")
                 .gdesc("새로운 콘서트 내용")
                 .place("서울 콘서트장")
+                .startDate("2024-06-05")
+                .endDate("2024-06-25")
                 .genre("concert")
                 .age(15)
                 .time(130)

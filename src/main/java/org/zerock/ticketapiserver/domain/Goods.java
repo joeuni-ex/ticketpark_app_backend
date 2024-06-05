@@ -26,6 +26,10 @@ public class Goods {
 
     private String place;
 
+    private String startDate;
+
+    private String endDate;
+
     private  String gdesc;
 
     private  int time;
@@ -52,11 +56,20 @@ public class Goods {
         this.place =place;
     }
 
-    //장소 변경
+    //상세정보 변경
     public void changeGdesc (String gdesc){
         this.gdesc =gdesc;
     }
 
+    //시작일자 변경
+    public void changeStartDate (String startDate){
+        this.startDate =startDate;
+    }
+
+    //종료일자 변경
+    public void changeEndDate (String endDate){
+        this.endDate =endDate;
+    }
 
     //시간 변경
     public void changeTime (int time){
