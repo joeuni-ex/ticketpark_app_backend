@@ -38,6 +38,8 @@ public class Goods {
 
     private String genre;
 
+    private boolean exclusive; //단독 판매 여부
+
     private boolean delFlag;
 
     //굿즈 이미지
@@ -88,6 +90,10 @@ public class Goods {
         this.genre =genre;
     }
 
+    //단독판매 변경
+    public void changeExclusive (boolean exclusive){
+        this.exclusive =exclusive;
+    }
 
 
     //이미지 추가

@@ -65,6 +65,7 @@ public class GoodsServiceImpl implements GoodsService {
                     .age(goods.getAge())
                     .time(goods.getTime())
                     .genre(goods.getGenre())
+                    .exclusive(goods.isExclusive())
                     .build();
 
             String imageStr = goodsImage.getFileName();
@@ -124,6 +125,7 @@ public class GoodsServiceImpl implements GoodsService {
         goods.changeAge(goodsDTO.getAge());
         goods.changeGenre(goodsDTO.getGenre());
         goods.changeTime(goodsDTO.getTime());
+        goods.changeExclusive(goodsDTO.isExclusive());
         goods.changeDel(goodsDTO.isDelFlag());
 
         //이미지 처리
@@ -161,6 +163,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .age(goodsDTO.getAge())
                 .time(goodsDTO.getTime())
                 .genre(goodsDTO.getGenre())
+                .exclusive(goodsDTO.isExclusive())
                 .build();
 
         //업로드가 끝나면 나오는 uploadFileNames을
@@ -190,6 +193,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .time(goods.getTime())
                 .genre(goods.getGenre())
                 .delFlag(goods.isDelFlag())
+                .exclusive(goods.isExclusive())
                 .build();
 
         List<GoodsImage> imageList = goods.getImageList();

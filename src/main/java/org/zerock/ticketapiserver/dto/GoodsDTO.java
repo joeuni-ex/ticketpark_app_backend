@@ -28,7 +28,6 @@ public class GoodsDTO {
 
     private String endDate;
 
-
     private  String gdesc;
 
     private  int time;
@@ -36,6 +35,8 @@ public class GoodsDTO {
     private int age;
 
     private String genre;
+
+    private boolean exclusive; //단독 판매 여부
 
     private boolean delFlag;
 
