@@ -32,8 +32,15 @@ public class GoodsServiceImpl implements GoodsService {
                 pageRequestDTO.getSize(),
                 Sort.by("gno").descending());
 
+        Page<Object[]> result;
 
-        Page<Object[]> result = goodsRepository.selectList(pageable);
+        log.info(pageRequestDTO);
+
+        if (pageRequestDTO.getGenre().equals("all")) {
+            result = goodsRepository.selectList(pageable);
+        } else {
+            result = goodsRepository.selectListOfGenre(pageable, pageRequestDTO.getGenre());
+        }
 
         //Object[] = 0.product 1.productImage
         //Object[] = 0.product 1.productImage
