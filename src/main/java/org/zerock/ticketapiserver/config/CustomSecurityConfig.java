@@ -31,6 +31,12 @@ public class CustomSecurityConfig {
         //csrf
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
+        //로그인 확인 테스트
+        http.formLogin(config -> {
+            config.loginPage("/api/member/login");
+        });
+
+
         return http.build();
     }
 
