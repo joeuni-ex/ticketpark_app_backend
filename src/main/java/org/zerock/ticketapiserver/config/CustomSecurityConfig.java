@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.zerock.ticketapiserver.handler.APILoginFailHandler;
 import org.zerock.ticketapiserver.handler.APILoginSuccessHandler;
 
 import java.util.Arrays;
@@ -41,12 +42,12 @@ public class CustomSecurityConfig {
         //csrf
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
-        //로그인 확인 테스트
+//로그인 확인 테스트
         http.formLogin(config -> {
             config.loginPage("/api/member/login");
             config.successHandler(new APILoginSuccessHandler());
+            config.failureHandler(new APILoginFailHandler());
         });
-
 
         return http.build();
     }
