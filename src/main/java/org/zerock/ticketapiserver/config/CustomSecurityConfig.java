@@ -9,9 +9,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.zerock.ticketapiserver.filter.JWTCheckFilter;
 import org.zerock.ticketapiserver.handler.APILoginFailHandler;
 import org.zerock.ticketapiserver.handler.APILoginSuccessHandler;
 
@@ -42,12 +44,16 @@ public class CustomSecurityConfig {
         //csrf
         http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
-//로그인 확인 테스트
+        //로그인 확인 테스트
         http.formLogin(config -> {
             config.loginPage("/api/member/login");
             config.successHandler(new APILoginSuccessHandler());
             config.failureHandler(new APILoginFailHandler());
         });
+
+        //필터 등록 UsernamePasswordAuthenticationFilter가 동작하기 전에 필터 처리
+        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
