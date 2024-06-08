@@ -1,5 +1,6 @@
 package org.zerock.ticketapiserver.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.ticketapiserver.dto.GoodsDTO;
@@ -75,6 +76,7 @@ public class GoodsController {
 
 
   //수정
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
   @PutMapping("/{gno}")
   public Map<String, String> modify(@PathVariable Long gno, GoodsDTO goodsDTO){
 
