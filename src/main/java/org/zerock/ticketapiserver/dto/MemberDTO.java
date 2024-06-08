@@ -1,18 +1,24 @@
 package org.zerock.ticketapiserver.dto;
 
-import org.springframework.security.core.GrantedAuthority;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class MemberDTO extends User {
 
-    private String email,pw,nickname;
+    private String email;
+    private String pw;
+    private String nickname;
     private boolean social;
+    private List<String> roleNames = new ArrayList<>();
 
-    private List<String> roleNames =  new ArrayList<>();
 
 
     public MemberDTO(String email, String pw, String nickname, boolean social,List<String> roleNames) {
