@@ -95,6 +95,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         if(path.startsWith("/api/member")){
             return true; //체크 안함
         }
+        if(path.startsWith("/api/goods")){
+            return true; //체크 안함
+        }
 
         //false == check
         return false;
