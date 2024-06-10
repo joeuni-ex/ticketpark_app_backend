@@ -48,6 +48,7 @@ public class Goods {
     private List<GoodsImage> imageList = new ArrayList<>();
 
 
+
     //제목 변경
     public void changeTitle (String title){
         this.title =title;

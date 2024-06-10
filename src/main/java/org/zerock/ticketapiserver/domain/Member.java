@@ -1,9 +1,6 @@
 package org.zerock.ticketapiserver.domain;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -29,6 +26,8 @@ public class Member {
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<MemberRole> memberRoleList = new ArrayList<>();
+
+
 
     //권한 추가
     public void addRole(MemberRole memberRole){

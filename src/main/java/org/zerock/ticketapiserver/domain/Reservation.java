@@ -29,7 +29,7 @@ public class Reservation {
     @JoinColumn(name = "goods_gno")
     private Goods goods;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "seat_sno")
     private Seat seat;
 

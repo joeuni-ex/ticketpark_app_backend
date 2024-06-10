@@ -1,9 +1,12 @@
 package org.zerock.ticketapiserver.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.ticketapiserver.domain.Reservation;
+import org.zerock.ticketapiserver.dto.ReservationListDTO;
 
 import java.util.List;
 
@@ -18,7 +21,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "where gi.ord = 0 " +
             "and re.owner.email = :email " +
             "order by re.rno desc")
-    List<Object[]> getReservationByEmail(@Param("email") String email); //email을 가지고 예약목록 가져오기
+    List<ReservationListDTO> getReservationByEmail(@Param("email") String email); //email을 가지고 예약목록 가져오기
 
 
 
