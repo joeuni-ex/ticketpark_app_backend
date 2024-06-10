@@ -9,6 +9,9 @@ import org.zerock.ticketapiserver.domain.MemberRole;
 import org.zerock.ticketapiserver.dto.MemberDTO;
 import org.zerock.ticketapiserver.repository.MemberRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Log4j2
 @RequiredArgsConstructor
@@ -24,12 +27,16 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = Member.builder()
                 .email(memberDTO.getEmail())
-                .pw( passwordEncoder.encode(memberDTO.getPassword()))
-                .nickname(memberDTO.getPassword())
-                .social(false)
+                .pw( passwordEncoder.encode(memberDTO.getPw()))
+                .nickname(memberDTO.getNickname())
+                .social(memberDTO.isSocial())
                 .build();
 
-        member.addRole(MemberRole.USER);
+        List<MemberRole> roles = memberDTO.getRoleNames().stream()
+                .map(MemberRole::valueOf)
+                .collect(Collectors.toList());
+
+        roles.forEach(member::addRole);
 
         log.info(member);
         memberRepository.save(member);
