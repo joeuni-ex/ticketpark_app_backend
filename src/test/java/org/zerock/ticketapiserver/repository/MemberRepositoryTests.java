@@ -57,4 +57,18 @@ public class MemberRepositoryTests {
 
 
     }
+
+    //이메일 중복 확인
+    @Test
+    public void emailDuplicates(){
+
+        String email = "user0@aaa.com";
+
+        boolean result = memberRepository.existsByEmail(email);
+
+        log.info( "====emailDuplicates =====");
+        log.info( result );
+
+
+    }
 }

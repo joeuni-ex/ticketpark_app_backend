@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.Member;
 import org.zerock.ticketapiserver.domain.MemberRole;
+import org.zerock.ticketapiserver.dto.CheckEmailDTO;
 import org.zerock.ticketapiserver.dto.MemberDTO;
 import org.zerock.ticketapiserver.repository.MemberRepository;
 
@@ -44,4 +45,11 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
+    //이메일 중복 확인
+    @Override
+    public boolean emailDuplicates(CheckEmailDTO checkEmailDTO) {
+
+      return memberRepository.existsByEmail(checkEmailDTO.getEmail());
+
+    }
 }
