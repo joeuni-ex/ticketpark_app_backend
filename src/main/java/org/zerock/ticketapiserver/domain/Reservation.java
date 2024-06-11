@@ -38,13 +38,25 @@ public class Reservation {
     private Seat seat;
 
 
-
     @Column(nullable = false, updatable = false)
     private LocalDate dueDate;
+
+    private boolean cancelFlag = false; //예약 취소 여부
+
 
     @PrePersist
     protected void onCreate() {
         this.dueDate = LocalDate.now();
     }
+
+    //예약일자 변경
+    public void changeReservationDate (String reservationDate){
+        this.reservationDate =reservationDate;
+    }
+
+
+
+
+
 
 }

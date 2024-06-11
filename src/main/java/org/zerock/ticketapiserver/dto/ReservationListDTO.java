@@ -23,13 +23,16 @@ public class ReservationListDTO {
 
     private String imageFile; //이미지
 
-    public ReservationListDTO(Long rno, String gtitle,  String seatClass, int seatNumber , int price , String imageFile) {
+    private boolean cancelFlag;
+
+    public ReservationListDTO(Long rno, String gtitle,  String seatClass, int seatNumber , int price , String imageFile ,boolean cancelFlag) {
         this.rno = rno;
         this.gtitle = gtitle;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
         this.price = price;
         this.imageFile = imageFile;
+        this.cancelFlag = cancelFlag;
         
     }
 }

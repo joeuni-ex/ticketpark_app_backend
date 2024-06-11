@@ -13,7 +13,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("select " +
-            "new org.zerock.ticketapiserver.dto.ReservationListDTO(re.rno, g.title, s.seatClass, s.seatNumber, s.price, gi.fileName )" +
+            "new org.zerock.ticketapiserver.dto.ReservationListDTO(re.rno , g.title, s.seatClass, s.seatNumber, s.price, gi.fileName,re.cancelFlag )" +
             "from " +
             "Reservation re join Goods g on re.goods = g " +
             "join Seat s on re.seat = s  " +
