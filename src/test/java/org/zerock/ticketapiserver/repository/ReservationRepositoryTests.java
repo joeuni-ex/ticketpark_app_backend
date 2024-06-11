@@ -79,4 +79,15 @@ public class ReservationRepositoryTests {
 
     }
 
+
+    //update CancelFlag
+    @Test
+    @Transactional
+    public void testCancelReservation(){
+
+        Long rno = 1L;
+
+        reservationRepository.updateToCancel(rno,true);
+
+    }
 }

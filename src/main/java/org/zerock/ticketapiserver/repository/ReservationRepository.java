@@ -28,6 +28,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     //cancelFlag -> true로 변경하여 삭제처리
     @Modifying
     @Query("update Reservation r set r.cancelFlag = :cancelFlag where r.rno = :rno")
-    void updateToDelete(@Param("rno") Long rno, @Param("cancelFlag") boolean flag);
+    void updateToCancel(@Param("rno") Long rno, @Param("cancelFlag") boolean cancelFlag);
+
+
+    //delFlag -> true로 변경하여 삭제처리
+    @Modifying
+    @Query("update Goods g set g.delFlag = :delFlag where g.gno = :gno")
+    void updateToDelete(@Param("gno") Long gno, @Param("delFlag") boolean flag);
 
 }

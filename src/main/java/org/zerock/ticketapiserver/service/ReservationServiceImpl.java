@@ -1,5 +1,6 @@
 package org.zerock.ticketapiserver.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -7,8 +8,8 @@ import org.zerock.ticketapiserver.domain.*;
 import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.repository.ReservationRepository;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -17,6 +18,17 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     private final ReservationRepository reservationRepository;
+
+    //예약 조회
+    @Override
+    public ReservationDTO get(Long sno) {
+
+        Optional<Reservation> result = reservationRepository.findById(sno);
+
+        Reservation reservation = result.orElseThrow();
+
+        return entityToDto(reservation);
+    }
 
 
     //예약 목록
@@ -35,6 +47,31 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    // 수정
+    @Override
+    public void modify(ReservationDTO reservationDTO) {
+        Optional<Reservation> result = reservationRepository.findById(reservationDTO.getRno());
+
+        if (result.isPresent()) {
+            Reservation reservation = result.get();
+
+            reservation.changeReservationDate(reservationDTO.getReservationDate());
+
+            reservationRepository.save(reservation);
+        } else {
+            throw new IllegalArgumentException("Reservation not found for ID: " + reservationDTO.getRno());
+        }
+    }
+
+    //예약 취소
+    @Override
+    @Transactional
+    public void modifyCancelFlag(Long rno, boolean cancelFlag) {
+        log.info("Modify cancel flag: " + cancelFlag);
+        reservationRepository.updateToCancel(rno, cancelFlag);
+    }
+
+
 
     // DTO -> 엔티티 변환 (저장 시 사용)
     private Reservation dtoToEntity(ReservationDTO reservationDTO) {
@@ -49,6 +86,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .seat(seat)
                 .reservationDate(reservationDTO.getReservationDate())
                 .dueDate(reservationDTO.getDueDate())
+                .cancelFlag(reservationDTO.isCancelFlag())
                 .build();
 
         return reservation;
@@ -68,6 +106,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .seatNumber(reservation.getSeat().getSeatNumber())
                 .price(reservation.getSeat().getPrice())
                 .dueDate(reservation.getDueDate())
+                .cancelFlag(reservation.isCancelFlag())
                 .build();
 
 
