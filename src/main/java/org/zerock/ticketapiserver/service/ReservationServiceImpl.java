@@ -3,13 +3,11 @@ package org.zerock.ticketapiserver.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.zerock.ticketapiserver.domain.Goods;
-import org.zerock.ticketapiserver.domain.Member;
-import org.zerock.ticketapiserver.domain.Reservation;
-import org.zerock.ticketapiserver.domain.Seat;
+import org.zerock.ticketapiserver.domain.*;
 import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.repository.ReservationRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -32,8 +30,15 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void register(ReservationDTO reservationDTO) {
 
+        reservationRepository.save(dtoToEntity(reservationDTO));
 
-        // Assuming the Member and Goods are already saved in the DB
+    }
+
+
+
+    // DTO -> 엔티티 변환 (저장 시 사용)
+    private Reservation dtoToEntity(ReservationDTO reservationDTO) {
+
         Member member = Member.builder().email(reservationDTO.getEmail()).build();
         Goods goods = Goods.builder().gno(reservationDTO.getGno()).build();
         Seat seat = Seat.builder().sno(reservationDTO.getSno()).build();
@@ -46,12 +51,29 @@ public class ReservationServiceImpl implements ReservationService {
                 .dueDate(reservationDTO.getDueDate())
                 .build();
 
-        log.info("------------------------------");
-        log.info(reservation);
-
-        reservationRepository.save(reservation);
-
+        return reservation;
     }
+
+    //entitiy->dto 변환 (조회 시 사용)
+    private ReservationDTO entityToDto(Reservation reservation){
+
+
+        ReservationDTO reservationDTO = ReservationDTO.builder()
+                .rno(reservation.getRno())
+                .email(reservation.getOwner().getEmail())
+                .gno(reservation.getGoods().getGno())
+                .sno(reservation.getSeat().getSno())
+                .reservationDate(reservation.getReservationDate())
+                .seatClass(reservation.getSeat().getSeatClass())
+                .seatNumber(reservation.getSeat().getSeatNumber())
+                .price(reservation.getSeat().getPrice())
+                .dueDate(reservation.getDueDate())
+                .build();
+
+
+        return reservationDTO;
+    }
+
 
 
 }

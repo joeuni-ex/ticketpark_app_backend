@@ -10,4 +10,7 @@ public interface SeatService {
 
     //추가
     Long register(ReservationDTO registrationDTO);
+
+    //좌석변경
+    Long modify(ReservationDTO reservationDTO);
 }
