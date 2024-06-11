@@ -1,11 +1,10 @@
 package org.zerock.ticketapiserver.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.Goods;
-import org.zerock.ticketapiserver.domain.Member;
-import org.zerock.ticketapiserver.domain.Reservation;
 import org.zerock.ticketapiserver.domain.Seat;
 import org.zerock.ticketapiserver.dto.ReservationDTO;
 import org.zerock.ticketapiserver.repository.SeatRepository;
@@ -48,6 +47,13 @@ public class SeatServiceImpl implements SeatService {
         return sno;
     }
 
+
+    //예약 취소
+    @Override
+    @Transactional
+    public void modifyCancelFlag(Long sno, boolean cancelFlag) {
+        seatRepository.updateToCancel(sno, cancelFlag);
+    }
 
 
 

@@ -21,9 +21,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     //예약 조회
     @Override
-    public ReservationDTO get(Long sno) {
+    public ReservationDTO get(Long rno) {
 
-        Optional<Reservation> result = reservationRepository.findById(sno);
+        Optional<Reservation> result = reservationRepository.findById(rno);
 
         Reservation reservation = result.orElseThrow();
 
@@ -67,7 +67,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void modifyCancelFlag(Long rno, boolean cancelFlag) {
-        log.info("Modify cancel flag: " + cancelFlag);
         reservationRepository.updateToCancel(rno, cancelFlag);
     }
 

@@ -28,6 +28,8 @@ public class Seat {
     @JoinColumn(name = "goods_gno")
     private Goods goods;
 
+    private boolean cancelFlag; //예약 취소 여부
+
 
     //좌석클래스 변경
     public void changeSeatClass (String seatClass){
@@ -48,5 +50,9 @@ public class Seat {
     }
 
 
+    //예약 취소 변경
+    public void changeCancelFlag (boolean flag){
+        this.cancelFlag = flag;
+    }
 
 }

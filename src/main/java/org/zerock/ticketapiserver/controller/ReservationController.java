@@ -47,8 +47,11 @@ public class ReservationController {
 
         reservationDTO.setRno(rno);
 
+
         // 예약 취소
-        if (reservationDTO.isCancelFlag() && reservationDTO.getGno() == null && reservationDTO.getSno() == null) {
+        if (reservationDTO.isCancelFlag()) {
+            ReservationDTO reservation = reservationService.get(rno);
+            seatService.modifyCancelFlag(reservation.getSno(), reservationDTO.isCancelFlag());
             reservationService.modifyCancelFlag(rno, reservationDTO.isCancelFlag());
         }
         // 예약 변경

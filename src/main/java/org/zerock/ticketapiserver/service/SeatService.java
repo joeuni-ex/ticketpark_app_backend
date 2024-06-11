@@ -13,4 +13,8 @@ public interface SeatService {
 
     //좌석변경
     Long modify(ReservationDTO reservationDTO);
+
+    //예약 취소
+    @Transactional
+    void modifyCancelFlag(Long sno, boolean cancelFlag);
 }
