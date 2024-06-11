@@ -32,6 +32,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void register(ReservationDTO reservationDTO) {
 
+
         // Assuming the Member and Goods are already saved in the DB
         Member member = Member.builder().email(reservationDTO.getEmail()).build();
         Goods goods = Goods.builder().gno(reservationDTO.getGno()).build();
@@ -41,6 +42,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .owner(member)
                 .goods(goods)
                 .seat(seat)
+                .reservationDate(reservationDTO.getReservationDate())
+                .dueDate(reservationDTO.getDueDate())
                 .build();
 
         log.info("------------------------------");
@@ -49,7 +52,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(reservation);
 
     }
-
 
 
 }

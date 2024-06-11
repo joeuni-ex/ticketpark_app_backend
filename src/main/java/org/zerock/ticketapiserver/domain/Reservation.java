@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.mapping.ToOne;
 
+import java.time.LocalDate;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -21,6 +23,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
 
+    private String reservationDate; //예약일자
+
     @ManyToOne
     @JoinColumn(name = "member_owner")//컬럼명을 사용하는 이유는 인덱스를 사용하기 위해서
     private Member owner;// 예약 회원
@@ -33,5 +37,14 @@ public class Reservation {
     @JoinColumn(name = "seat_sno")
     private Seat seat;
 
+
+
+    @Column(nullable = false, updatable = false)
+    private LocalDate dueDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.dueDate = LocalDate.now();
+    }
 
 }

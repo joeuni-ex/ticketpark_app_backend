@@ -1,11 +1,15 @@
 package org.zerock.ticketapiserver.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationDTO {
@@ -16,11 +20,15 @@ public class ReservationDTO {
 
     private Long sno;
 
+    private String reservationDate; //예약일자
+
     private String seatClass;
 
     private int seatNumber;
 
     private int price;
+
+    private LocalDate dueDate;
 
 
 }
