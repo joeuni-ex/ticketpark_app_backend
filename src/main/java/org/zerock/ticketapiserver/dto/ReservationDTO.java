@@ -10,15 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReservationDTO {
 
-
-    private Long rno;
-
-
     private String email;
-
 
     private Long gno;//굿즈 id
 
+    private Long sno;
 
-    private Long sno; //좌석 id
+    private String seatClass;
+
+    private int seatNumber;
+
+    private int price;
+
+
 }

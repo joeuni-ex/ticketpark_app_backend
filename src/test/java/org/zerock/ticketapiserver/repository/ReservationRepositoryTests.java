@@ -43,7 +43,7 @@ public class ReservationRepositoryTests {
         Long gno = 1L;
         String seatClass = "VIP";
         int price = 130000;
-        Long sno = 1L;
+        Long sno = 2L;
 
         // Assuming the Member and Goods are already saved in the DB
         Member member = Member.builder().email(email).build();
