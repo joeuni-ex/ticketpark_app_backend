@@ -41,7 +41,7 @@ public class Reservation {
     @Column(nullable = false, updatable = false)
     private LocalDate dueDate;
 
-    private boolean cancelFlag = false; //예약 취소 여부
+    private boolean cancelFlag; //예약 취소 여부
 
 
     @PrePersist
@@ -55,8 +55,10 @@ public class Reservation {
     }
 
 
-
-
+    //데이터를 삭제 하는 것이 아닌 삭제 플래그의 값을 변경
+    public void changeCancel(boolean cancelFlag){
+        this.cancelFlag = cancelFlag;
+    }
 
 
 }

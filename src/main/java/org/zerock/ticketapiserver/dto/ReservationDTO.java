@@ -31,5 +31,7 @@ public class ReservationDTO {
 
     private LocalDate dueDate;
 
+    private boolean cancelFlag;
+
 
 }
