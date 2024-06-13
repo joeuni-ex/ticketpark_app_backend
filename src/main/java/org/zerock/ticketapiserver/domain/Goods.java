@@ -3,12 +3,11 @@ package org.zerock.ticketapiserver.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@ToString(exclude = "imageList") //엘리먼트 컬렉션이나 연관관계면 exclude로 빼줘야함
+@ToString(exclude = {"imageList", "timeList"}) //엘리먼트 컬렉션이나 연관관계면 exclude로 빼줘야함
 @Getter
 @Builder
 @AllArgsConstructor
@@ -42,10 +41,19 @@ public class Goods {
 
     private boolean delFlag;
 
+
+
     //굿즈 이미지
     @ElementCollection
     @Builder.Default
     private List<GoodsImage> imageList = new ArrayList<>();
+
+    //공연 시간표
+    @ElementCollection
+    @Builder.Default
+    private List<GoodsTime> timeList = new ArrayList<>();
+
+
 
 
 
@@ -104,15 +112,25 @@ public class Goods {
         imageList.add(image);
 
     }
+    
+    //공연 시간 추가
+    public void addTimes(String time){
+
+        GoodsTime goodsTime = GoodsTime.builder()
+                .time(time)
+                .build();
+
+        timeList.add(goodsTime);
+    }
 
     //이미지 문자열 타입으로 파일 이름 추가
     public void addImageString(String fileName){
 
-        GoodsImage productImage = GoodsImage.builder()
+        GoodsImage goodsImage = GoodsImage.builder()
                 .fileName(fileName)
                 .build();
 
-        addImage(productImage);
+        addImage(goodsImage);
 
     }
 
@@ -120,6 +138,9 @@ public class Goods {
 
         this.imageList.clear();
 
+    }
+    public void clearTimeList(){
+        this.timeList.clear();
     }
 
 

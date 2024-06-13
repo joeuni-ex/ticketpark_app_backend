@@ -44,6 +44,10 @@ public class GoodsRepositoryTests {
 
             goods.addImageString(UUID.randomUUID()+"_"+"IMAGE2.jpg");
 
+            goods.addTimes("08:45");
+
+            goods.addTimes("19:45");
+
 
             goodsRepository.save(goods);
         }

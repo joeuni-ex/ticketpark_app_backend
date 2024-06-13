@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface GoodsRepository extends JpaRepository<Goods,Long> {
     //조회 시 이미지 리스트 조인하여 함께 조회
-    @EntityGraph(attributePaths = "imageList")
+    @EntityGraph(attributePaths = {"imageList", "timeList"})
     @Query("select g from Goods g where g.gno = :gno")
     Optional<Goods> selectOne(@Param("gno") Long gno);
 
