@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.zerock.ticketapiserver.dto.GoodsDTO;
 import org.zerock.ticketapiserver.dto.PageRequestDTO;
 import org.zerock.ticketapiserver.dto.PageResponseDTO;
+import org.zerock.ticketapiserver.dto.ReservationDTO;
 import org.zerock.ticketapiserver.service.GoodsService;
 import org.zerock.ticketapiserver.util.CustomFileUtil;
 
@@ -76,40 +77,50 @@ public class GoodsController {
 
 
   //수정
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
   @PutMapping("/{gno}")
   public Map<String, String> modify(@PathVariable Long gno, GoodsDTO goodsDTO){
 
-    //업로드 저장
-    goodsDTO.setGno(gno);
+    log.info("modify " + gno + " " + goodsDTO);
+    // 삭제
+    if (goodsDTO.isDelFlag()) {
 
-    //old product Database saved Product
-    GoodsDTO oldProductDTO = goodsService.get(gno);
+      goodsService.modifyDelFlag(gno, goodsDTO.isDelFlag());
+    }
+    //수정
+    else{
+      //업로드 저장
+      goodsDTO.setGno(gno);
 
-    //file upload
-    List<MultipartFile> files = goodsDTO.getFiles();
-    List<String> currentUploadFileNames = fileUtil.saveFiles(files);
+      //old product Database saved Product
+      GoodsDTO oldProductDTO = goodsService.get(gno);
 
-    //keep files String
-    List<String> uploadedFileNames = goodsDTO.getUploadFileNames();
+      //file upload
+      List<MultipartFile> files = goodsDTO.getFiles();
+      List<String> currentUploadFileNames = fileUtil.saveFiles(files);
 
-    if(currentUploadFileNames != null && !currentUploadFileNames.isEmpty()){
+      //keep files String
+      List<String> uploadedFileNames = goodsDTO.getUploadFileNames();
 
-      uploadedFileNames.addAll(currentUploadFileNames);
+      if(currentUploadFileNames != null && !currentUploadFileNames.isEmpty()){
+
+        uploadedFileNames.addAll(currentUploadFileNames);
+
+      }
+
+      goodsService.modify(goodsDTO);
+
+      List<String> oldFileNames = oldProductDTO.getUploadFileNames();
+
+      if(oldFileNames != null && oldFileNames.size() > 0){
+
+        List<String> removeFiles =
+                oldFileNames.stream().filter(fileName -> uploadedFileNames.indexOf(fileName) == -1 ).collect(Collectors.toList());
+
+        fileUtil.deleteFiles(removeFiles);
+      }
 
     }
 
-    goodsService.modify(goodsDTO);
-
-    List<String> oldFileNames = oldProductDTO.getUploadFileNames();
-
-    if(oldFileNames != null && oldFileNames.size() > 0){
-
-      List<String> removeFiles =
-              oldFileNames.stream().filter(fileName -> uploadedFileNames.indexOf(fileName) == -1 ).collect(Collectors.toList());
-
-      fileUtil.deleteFiles(removeFiles);
-    }
 
 
     return Map.of("RESULT","SUCCESS");

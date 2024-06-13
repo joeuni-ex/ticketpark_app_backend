@@ -14,5 +14,8 @@ public interface GoodsService {
 
     GoodsDTO get(Long gno);
 
+    @Transactional
+    void modifyDelFlag(Long gno, boolean delFlag);
+
     void modify(GoodsDTO goodsDTO);
 }

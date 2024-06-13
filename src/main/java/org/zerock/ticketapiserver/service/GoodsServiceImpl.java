@@ -1,5 +1,6 @@
 package org.zerock.ticketapiserver.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -105,6 +106,16 @@ public class GoodsServiceImpl implements GoodsService {
         Optional<Goods> result = goodsRepository.selectOneWithImages(gno);
         Goods goods = result.orElseThrow();
         return entityToDto(goods);
+    }
+
+
+    //삭제[
+    @Override
+    @Transactional
+    public void modifyDelFlag(Long gno, boolean delFlag) {
+
+        log.info("modify " + gno + " " + delFlag);
+        goodsRepository.updateToDelete(gno, delFlag);
     }
 
     @Override
