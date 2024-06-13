@@ -41,7 +41,7 @@ public class GoodsServiceTests {
                 .endDate("2024-06-25")
                 .genre("concert")
                 .age(15)
-                .time(130)
+                .runningTime(130)
                 .build();
 
         goodsDTO.setUploadFileNames(
@@ -52,4 +52,7 @@ public class GoodsServiceTests {
 
         goodsService.register(goodsDTO);
     }
+
+
+
 }

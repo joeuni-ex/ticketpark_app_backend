@@ -13,9 +13,14 @@ import java.util.Optional;
 
 public interface GoodsRepository extends JpaRepository<Goods,Long> {
     //조회 시 이미지 리스트 조인하여 함께 조회
-    @EntityGraph(attributePaths = {"imageList", "timeList"})
+    @EntityGraph(attributePaths = {"imageList"})
     @Query("select g from Goods g where g.gno = :gno")
-    Optional<Goods> selectOne(@Param("gno") Long gno);
+    Optional<Goods> selectOneWithImages(@Param("gno") Long gno);
+    //조회 시 타임 리스트 조인하여 함께 조회
+    @EntityGraph(attributePaths = {"timeList"})
+    @Query("select g from Goods g where g.gno = :gno")
+    Optional<Goods> selectOneWithTimes(@Param("gno") Long gno);
+    
 
     //delFlag -> true로 변경하여 삭제처리
     @Modifying

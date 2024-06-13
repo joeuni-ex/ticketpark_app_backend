@@ -4,17 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.zerock.ticketapiserver.domain.Reservation;
-import org.zerock.ticketapiserver.dto.GoodsDTO;
+
 import org.zerock.ticketapiserver.dto.ReservationDTO;
 import org.zerock.ticketapiserver.service.ReservationService;
 import org.zerock.ticketapiserver.service.SeatService;
 
-import java.security.Principal;
-import java.util.List;
+
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @RestController
 @Log4j2

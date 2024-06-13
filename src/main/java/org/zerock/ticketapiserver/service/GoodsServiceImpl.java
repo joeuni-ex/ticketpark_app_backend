@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.Goods;
 import org.zerock.ticketapiserver.domain.GoodsImage;
+import org.zerock.ticketapiserver.domain.GoodsTime;
 import org.zerock.ticketapiserver.dto.GoodsDTO;
 import org.zerock.ticketapiserver.dto.PageRequestDTO;
 import org.zerock.ticketapiserver.dto.PageResponseDTO;
@@ -63,7 +64,7 @@ public class GoodsServiceImpl implements GoodsService {
                     .startDate(goods.getStartDate())
                     .endDate(goods.getEndDate())
                     .age(goods.getAge())
-                    .time(goods.getTime())
+                    .runningTime(goods.getRunningTime())
                     .genre(goods.getGenre())
                     .exclusive(goods.isExclusive())
                     .build();
@@ -91,10 +92,6 @@ public class GoodsServiceImpl implements GoodsService {
     public Long register(GoodsDTO goodsDTO) {
         Goods goods = dtoToEntity(goodsDTO);
 
-        log.info("------------------------------");
-        log.info(goods);
-        log.info(goods.getImageList());
-
         Long gno = goodsRepository.save(goods).getGno();
 
         return gno;
@@ -104,10 +101,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public GoodsDTO get(Long gno) {
 
-        Optional<Goods> result = goodsRepository.findById(gno);
-
+        //이미지 
+        Optional<Goods> result = goodsRepository.selectOneWithImages(gno);
         Goods goods = result.orElseThrow();
-
         return entityToDto(goods);
     }
 
@@ -124,8 +120,10 @@ public class GoodsServiceImpl implements GoodsService {
         goods.changePlace(goodsDTO.getPlace());
         goods.changeAge(goodsDTO.getAge());
         goods.changeGenre(goodsDTO.getGenre());
-        goods.changeTime(goodsDTO.getTime());
+        goods.changeRunningTime(goodsDTO.getRunningTime());
         goods.changeExclusive(goodsDTO.isExclusive());
+        goods.changeStartDate(goodsDTO.getStartDate());
+        goods.changeEndDate(goodsDTO.getEndDate());
         goods.changeDel(goodsDTO.isDelFlag());
 
         //이미지 처리
@@ -136,12 +134,16 @@ public class GoodsServiceImpl implements GoodsService {
         //목록 비우기
         goods.clearList();
 
-        if(uploadFileNames != null && !uploadFileNames.isEmpty()){
+        if (uploadFileNames != null && !uploadFileNames.isEmpty()) {
+            uploadFileNames.forEach(goods::addImageString);
+        }
 
-            uploadFileNames.forEach(uploadNmae -> {
-                goods.addImageString(uploadNmae);
-            });
+        List<String> uploadTimes = goodsDTO.getTimes();
 
+        goods.clearTimeList();
+
+        if (uploadTimes != null && !uploadTimes.isEmpty()) {
+            uploadTimes.forEach(goods::addTimes);
         }
 
         //저장
@@ -161,7 +163,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .startDate(goodsDTO.getStartDate())
                 .endDate(goodsDTO.getEndDate())
                 .age(goodsDTO.getAge())
-                .time(goodsDTO.getTime())
+                .runningTime(goodsDTO.getRunningTime())
                 .genre(goodsDTO.getGenre())
                 .exclusive(goodsDTO.isExclusive())
                 .build();
@@ -169,13 +171,15 @@ public class GoodsServiceImpl implements GoodsService {
         //업로드가 끝나면 나오는 uploadFileNames을
         List<String> uploadFileNames = goodsDTO.getUploadFileNames();
 
-        if(uploadFileNames == null || uploadFileNames.isEmpty()){
-            return goods;
+        if (uploadFileNames != null && !uploadFileNames.isEmpty()) {
+            uploadFileNames.forEach(goods::addImageString);
         }
 
-        uploadFileNames.forEach(fileName ->{
-            goods.addImageString(fileName);
-        });
+        //공연 시간표
+        List<String> times = goodsDTO.getTimes();
+        if (times != null && !times.isEmpty()) {
+            times.forEach(goods::addTimes);
+        }
 
         return goods;
     }
@@ -190,7 +194,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .startDate(goods.getStartDate())
                 .endDate(goods.getEndDate())
                 .age(goods.getAge())
-                .time(goods.getTime())
+                .runningTime(goods.getRunningTime())
                 .genre(goods.getGenre())
                 .delFlag(goods.isDelFlag())
                 .exclusive(goods.isExclusive())
@@ -198,14 +202,17 @@ public class GoodsServiceImpl implements GoodsService {
 
         List<GoodsImage> imageList = goods.getImageList();
 
-        if(imageList == null || imageList.isEmpty()){
-            return goodsDTO;
+        if (imageList != null && !imageList.isEmpty()) {
+            List<String> fileNameList = imageList.stream().map(GoodsImage::getFileName).toList();
+            goodsDTO.setUploadFileNames(fileNameList);
         }
-        //상품이미지를 문자열로 바꿈
-        List<String> fileNameList = imageList.stream().map(goodsImage ->
-                goodsImage.getFileName()).toList();
 
-        goodsDTO.setUploadFileNames(fileNameList);
+
+        List<GoodsTime> timeList = goods.getTimeList();
+        if (timeList != null && !timeList.isEmpty()) {
+            List<String> timeListToString = timeList.stream().map(GoodsTime::getTime).toList();
+            goodsDTO.setTimes(timeListToString);
+        }
 
         return goodsDTO;
     }

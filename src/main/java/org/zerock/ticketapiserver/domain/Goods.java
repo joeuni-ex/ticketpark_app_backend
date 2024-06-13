@@ -31,7 +31,7 @@ public class Goods {
 
     private  String gdesc;
 
-    private  int time;
+    private  int runningTime;
 
     private int age;
 
@@ -43,16 +43,15 @@ public class Goods {
 
 
 
-    //굿즈 이미지
-    @ElementCollection
+    // 굿즈 이미지
+    @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<GoodsImage> imageList = new ArrayList<>();
 
-    //공연 시간표
-    @ElementCollection
+    // 공연 시간표
+    @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<GoodsTime> timeList = new ArrayList<>();
-
 
 
 
@@ -83,8 +82,8 @@ public class Goods {
     }
 
     //시간 변경
-    public void changeTime (int time){
-        this.time =time;
+    public void changeRunningTime (int runningTime){
+        this.runningTime =runningTime;
     }
 
 

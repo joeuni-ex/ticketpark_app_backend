@@ -30,7 +30,7 @@ public class GoodsDTO {
 
     private  String gdesc;
 
-    private  int time;
+    private  int runningTime;
 
     private int age;
 
@@ -47,5 +47,8 @@ public class GoodsDTO {
     //조회 시 사용
     @Builder.Default
     private List<String> uploadFileNames = new ArrayList<>();
+
+    @Builder.Default
+    private List<String> times = new ArrayList<>();
 
 }

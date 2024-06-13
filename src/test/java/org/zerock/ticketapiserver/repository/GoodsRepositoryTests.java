@@ -34,8 +34,11 @@ public class GoodsRepositoryTests {
                     .title("Test")
                     .gdesc("Test Desc")
                     .age(15)
-                    .time(120)
+                    .runningTime(120)
                     .place("Test Place")
+                    .startDate("2024-06-13")
+                    .exclusive(true)
+                    .endDate("2024-06-20")
                     .genre("concert")
                     .build();
 
@@ -60,15 +63,19 @@ public class GoodsRepositoryTests {
 
         Long gno = 1L;
 
-        //ProductRepository 에서 생성한 selectOne
         //쿼리가 한 번만 날라감
-        Optional<Goods> result = goodsRepository.selectOne(gno);
+        Optional<Goods> result = goodsRepository.selectOneWithImages(gno);
+        Optional<Goods> result2 = goodsRepository.selectOneWithTimes(gno);
 
-        Goods goods = result.orElseThrow();
+
+
+        Goods goods = result2.orElseThrow();
 
         log.info(goods);
 
-        log.info(goods.getImageList());
+//        log.info(goods.getImageList());
+
+        log.info(goods.getTimeList());
 
     }
 
@@ -85,7 +92,7 @@ public class GoodsRepositoryTests {
     @Test
     public void testUpdate(){
 
-        Goods goods = goodsRepository.selectOne(1L).get();
+        Goods goods = goodsRepository.selectOneWithImages(1L).get();
 
         goods.changeTitle("Update title");
 
