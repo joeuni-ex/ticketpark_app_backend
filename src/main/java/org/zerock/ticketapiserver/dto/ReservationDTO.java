@@ -27,11 +27,15 @@ public class ReservationDTO {
 
     private int seatNumber;
 
+    private String time;
+
     private int price;
 
     private LocalDate dueDate;
 
     private boolean cancelFlag;
+
+
 
 
 }

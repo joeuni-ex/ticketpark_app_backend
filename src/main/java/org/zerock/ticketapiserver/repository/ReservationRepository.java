@@ -14,7 +14,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("select " +
-            "new org.zerock.ticketapiserver.dto.ReservationListDTO(re.rno , g.title, s.seatClass, s.seatNumber, s.price, gi.fileName,re.cancelFlag )" +
+            "new org.zerock.ticketapiserver.dto.ReservationListDTO(re.rno , g.title, re.reservationDate ,s.seatClass, s.seatNumber, re.time, s.price, gi.fileName ,re.dueDate ,re.cancelFlag )" +
             "from " +
             "Reservation re join Goods g on re.goods = g " +
             "join Seat s on re.seat = s  " +
@@ -30,10 +30,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("update Reservation r set r.cancelFlag = :cancelFlag where r.rno = :rno")
     void updateToCancel(@Param("rno") Long rno, @Param("cancelFlag") boolean cancelFlag);
 
-
-    //delFlag -> true로 변경하여 삭제처리
-    @Modifying
-    @Query("update Goods g set g.delFlag = :delFlag where g.gno = :gno")
-    void updateToDelete(@Param("gno") Long gno, @Param("delFlag") boolean flag);
 
 }

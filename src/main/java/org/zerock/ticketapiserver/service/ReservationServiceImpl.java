@@ -84,6 +84,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .goods(goods)
                 .seat(seat)
                 .reservationDate(reservationDTO.getReservationDate())
+                .time(reservationDTO.getTime())
                 .dueDate(reservationDTO.getDueDate())
                 .cancelFlag(reservationDTO.isCancelFlag())
                 .build();
@@ -103,6 +104,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .reservationDate(reservation.getReservationDate())
                 .seatClass(reservation.getSeat().getSeatClass())
                 .seatNumber(reservation.getSeat().getSeatNumber())
+                .time(reservation.getTime())
                 .price(reservation.getSeat().getPrice())
                 .dueDate(reservation.getDueDate())
                 .cancelFlag(reservation.isCancelFlag())

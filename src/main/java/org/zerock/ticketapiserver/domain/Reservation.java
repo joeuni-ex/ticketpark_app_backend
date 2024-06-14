@@ -33,6 +33,9 @@ public class Reservation {
     @JoinColumn(name = "goods_gno")
     private Goods goods;
 
+
+    private String time;
+
     @OneToOne
     @JoinColumn(name = "seat_sno")
     private Seat seat;
@@ -55,10 +58,17 @@ public class Reservation {
     }
 
 
+    //시간 변경
+    public void changeTime (String time){
+        this.time =time;
+    }
+
     //데이터를 삭제 하는 것이 아닌 삭제 플래그의 값을 변경
     public void changeCancel(boolean cancelFlag){
         this.cancelFlag = cancelFlag;
     }
+
+
 
 
 }
