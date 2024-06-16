@@ -58,7 +58,7 @@ public class GoodsController {
       return fileUtil.getFile(fileName);
   }
 
-  //파일 목록 조회
+  // 목록 조회
   @GetMapping("/list")
   public PageResponseDTO<GoodsDTO> list(PageRequestDTO pageRequestDTO) {
 

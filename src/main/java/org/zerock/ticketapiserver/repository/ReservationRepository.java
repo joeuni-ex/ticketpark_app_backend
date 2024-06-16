@@ -22,13 +22,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "where gi.ord = 0 " +
             "and re.owner.email = :email " +
             "order by re.rno desc")
-    List<ReservationListDTO> getReservationByEmail(@Param("email") String email); //email을 가지고 예약목록 가져오기
+     Page<ReservationListDTO> getReservationByEmail( Pageable pageable,@Param("email") String email); //email을 가지고 예약목록 가져오기
 
 
     //cancelFlag -> true로 변경하여 삭제처리
     @Modifying
     @Query("update Reservation r set r.cancelFlag = :cancelFlag where r.rno = :rno")
     void updateToCancel(@Param("rno") Long rno, @Param("cancelFlag") boolean cancelFlag);
+
 
 
 }

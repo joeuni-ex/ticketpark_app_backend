@@ -21,6 +21,7 @@ public class ReservationDTO {
 
     private Long sno;
 
+
     private String reservationDate; //예약일자
 
     private String seatClass;

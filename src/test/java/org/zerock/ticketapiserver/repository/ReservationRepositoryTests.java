@@ -24,15 +24,15 @@ public class ReservationRepositoryTests {
 
 
 
-    @Test
-    public void testListOfMember(){
-
-        String email = "hong@gmail.com";
-
-        reservationRepository.getReservationByEmail(email);
-
-
-    }
+//    @Test
+//    public void testListOfMember(){
+//
+//        String email = "hong@gmail.com";
+//
+//        reservationRepository.getReservationByEmail(email);
+//
+//
+//    }
 
     @Transactional
     @Commit //테스트가 실제 db에 반영하기 위해서

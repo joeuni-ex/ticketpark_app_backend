@@ -26,12 +26,12 @@ public class JWTCheckFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        log.info("---------------------------");
 
         log.info("---------------------------");
 
         log.info("---------------------------");
 
+        log.info("---------------------------");
         String authHeaderStr = request.getHeader("Authorization");
 
         try{
@@ -42,7 +42,6 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             Map<String,Object> claims = JWTUtil.validateToken(accessToken);
 
             log.info(claims);
-
 
             //dest 다음목적지
             //filterChain.doFilter(request,response);
@@ -68,6 +67,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
             filterChain.doFilter(request,response);
+
 
         }catch (Exception e){
 
@@ -99,6 +99,10 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true; //체크 안함
         }
 
+        //이미지 조회 경로는 체크하지 않는다면
+        if(path.startsWith("/api/goods/view/")) {
+            return true;
+        }
         //false == check
         return false;
     }

@@ -3,6 +3,10 @@ package org.zerock.ticketapiserver.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.*;
 import org.zerock.ticketapiserver.dto.*;
@@ -31,11 +35,26 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    //예약 목록
+    //목록조회
     @Override
-    public List<ReservationListDTO> getReservations(String email) {
-        return reservationRepository.getReservationByEmail(email);
+    public PageResponseDTO<ReservationListDTO> getList(PageRequestDTO pageRequestDTO, String email) {
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("rno").descending());
+
+        Page<ReservationListDTO> result = reservationRepository.getReservationByEmail(pageable, email);
+
+        List<ReservationListDTO> dtoList = result.getContent();
+
+        long totalCount = result.getTotalElements();
+
+        return PageResponseDTO.<ReservationListDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
     }
+
 
 
     //추가

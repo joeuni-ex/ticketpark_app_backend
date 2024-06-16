@@ -10,15 +10,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class MemberDTO extends User {
 
-    private String email;
-    private String pw;
-    private String nickname;
-    private boolean social;
-    private List<String> roleNames = new ArrayList<>();
 
+    private String email,pw,nickname;
+    private boolean social;
+
+    private List<String> roleNames =  new ArrayList<>();
 
 
     public MemberDTO(String email, String pw, String nickname, boolean social,List<String> roleNames) {
@@ -46,4 +44,5 @@ public class MemberDTO extends User {
 
         return dataMap;
     }
+
 }

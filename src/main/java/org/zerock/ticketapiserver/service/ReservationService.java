@@ -1,6 +1,8 @@
 package org.zerock.ticketapiserver.service;
 
 import jakarta.transaction.Transactional;
+import org.zerock.ticketapiserver.dto.PageRequestDTO;
+import org.zerock.ticketapiserver.dto.PageResponseDTO;
 import org.zerock.ticketapiserver.dto.ReservationDTO;
 import org.zerock.ticketapiserver.dto.ReservationListDTO;
 
@@ -11,7 +13,8 @@ public interface ReservationService {
     //예약 조회
     ReservationDTO get(Long sno);
 
-    List<ReservationListDTO> getReservations(String email);
+
+    PageResponseDTO<ReservationListDTO> getList(PageRequestDTO pageRequestDTO, String email);
 
     //추가
     void register(ReservationDTO reservationDTO);
