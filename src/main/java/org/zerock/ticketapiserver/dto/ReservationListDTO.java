@@ -15,6 +15,8 @@ public class ReservationListDTO {
 
     private Long rno;
 
+    private Long gno;
+
     private String gtitle;//굿즈 이름
     
     private String place;//장소
@@ -35,8 +37,9 @@ public class ReservationListDTO {
 
     private boolean cancelFlag;
 
-    public ReservationListDTO(Long rno, String gtitle, String place, String reservationDate, String seatClass, int seatNumber , String time, int price , String imageFile , LocalDate dueDate, boolean cancelFlag) {
+    public ReservationListDTO(Long rno, Long gno, String gtitle, String place, String reservationDate, String seatClass, int seatNumber , String time, int price , String imageFile , LocalDate dueDate, boolean cancelFlag) {
         this.rno = rno;
+        this.gno = gno;
         this.gtitle = gtitle;
         this.place = place;
         this.reservationDate = reservationDate;
