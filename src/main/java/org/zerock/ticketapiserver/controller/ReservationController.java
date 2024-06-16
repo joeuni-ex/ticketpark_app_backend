@@ -39,6 +39,8 @@ public class ReservationController {
 
         String email = principal.getName(); // 현재 로그인 중인 유저의 정보
 
+        log.info(email);
+
         return reservationService.getList(pageRequestDTO,email);
 
     }

@@ -44,7 +44,11 @@ public class ReservationServiceImpl implements ReservationService {
 
         Page<ReservationListDTO> result = reservationRepository.getReservationByEmail(pageable, email);
 
+        log.info(result);
+
         List<ReservationListDTO> dtoList = result.getContent();
+
+        log.info(dtoList);
 
         long totalCount = result.getTotalElements();
 

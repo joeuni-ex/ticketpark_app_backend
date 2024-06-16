@@ -14,13 +14,14 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("select " +
-            "new org.zerock.ticketapiserver.dto.ReservationListDTO(re.rno , g.title, re.reservationDate ,s.seatClass, s.seatNumber, re.time, s.price, gi.fileName ,re.dueDate ,re.cancelFlag )" +
-            "from " +
-            "Reservation re join Goods g on re.goods = g " +
-            "join Seat s on re.seat = s  " +
+            "new org.zerock.ticketapiserver.dto.ReservationListDTO(re.rno, g.title, g.place, re.reservationDate, s.seatClass, s.seatNumber, re.time, s.price, gi.fileName, re.dueDate, re.cancelFlag) " +
+            "from Reservation re " +
+            "join re.goods g " +
+            "join re.seat s " +
             "left join g.imageList gi " +
             "where gi.ord = 0 " +
             "and re.owner.email = :email " +
+            "and re.cancelFlag = false " +
             "order by re.rno desc")
      Page<ReservationListDTO> getReservationByEmail( Pageable pageable,@Param("email") String email); //email을 가지고 예약목록 가져오기
 
