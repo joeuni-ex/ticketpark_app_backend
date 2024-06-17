@@ -79,6 +79,7 @@ public class ReservationServiceImpl implements ReservationService {
             Reservation reservation = result.get();
 
             reservation.changeReservationDate(reservationDTO.getReservationDate());
+            reservation.changeTime(reservationDTO.getTime());
 
             reservationRepository.save(reservation);
         } else {

@@ -25,7 +25,7 @@ public class ReservationController {
     private final SeatService seatService;
 
     //조회
-    @GetMapping("/{gno}")
+    @GetMapping("/{rno}")
     public ReservationDTO read(@PathVariable("rno") Long rno){
 
         return reservationService.get(rno);
