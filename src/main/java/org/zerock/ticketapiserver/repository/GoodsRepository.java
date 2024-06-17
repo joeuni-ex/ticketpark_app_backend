@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.ticketapiserver.domain.Goods;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface GoodsRepository extends JpaRepository<Goods,Long> {
@@ -16,11 +17,15 @@ public interface GoodsRepository extends JpaRepository<Goods,Long> {
     @EntityGraph(attributePaths = {"imageList"})
     @Query("select g from Goods g where g.gno = :gno")
     Optional<Goods> selectOneWithImages(@Param("gno") Long gno);
+
     //조회 시 타임 리스트 조인하여 함께 조회
     @EntityGraph(attributePaths = {"timeList"})
     @Query("select g from Goods g where g.gno = :gno")
     Optional<Goods> selectOneWithTimes(@Param("gno") Long gno);
-    
+
+    //현재 예약된 좌석 조회
+    @Query("select s.seatNumber from Seat s join s.goods g join g.timeList t where g.gno = :gno and s.cancelFlag = false and t.time = :time")
+    List<String> selectReservedSeat(@Param("gno") Long gno, @Param("time") String time);
 
     //delFlag -> true로 변경하여 삭제처리
     @Modifying
@@ -34,5 +39,8 @@ public interface GoodsRepository extends JpaRepository<Goods,Long> {
     //상품 목록(상품과 상품 이미지 , 페이지 타입으로 , 장르 목록)
     @Query("select g,gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false and g.genre=:genre ")
     Page<Object[]> selectListOfGenre(Pageable pageable,@Param("genre") String genre);
+
+
+
 
 }

@@ -48,6 +48,9 @@ public class SeatServiceImpl implements SeatService {
     }
 
 
+
+
+
     //예약 취소
     @Override
     @Transactional

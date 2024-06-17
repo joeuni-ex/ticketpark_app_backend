@@ -5,12 +5,16 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.test.annotation.Commit;
 import org.zerock.ticketapiserver.domain.Goods;
 import org.zerock.ticketapiserver.domain.Member;
 import org.zerock.ticketapiserver.domain.Reservation;
 import org.zerock.ticketapiserver.domain.Seat;
 import org.zerock.ticketapiserver.dto.ReservationDTO;
+
+import java.util.List;
 
 @SpringBootTest
 @Log4j2
@@ -87,7 +91,12 @@ public class ReservationRepositoryTests {
 
         Long rno = 1L;
 
+
+
         reservationRepository.updateToCancel(rno,true);
 
     }
+
+
+
 }

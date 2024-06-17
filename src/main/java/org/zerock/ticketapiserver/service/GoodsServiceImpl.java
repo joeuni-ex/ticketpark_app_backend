@@ -109,15 +109,17 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
 
-    //삭제[
+    //삭제
     @Override
     @Transactional
     public void modifyDelFlag(Long gno, boolean delFlag) {
 
-        log.info("modify " + gno + " " + delFlag);
         goodsRepository.updateToDelete(gno, delFlag);
     }
 
+
+
+    //수정
     @Override
     public void modify(GoodsDTO goodsDTO) {
 

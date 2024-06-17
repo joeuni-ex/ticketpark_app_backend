@@ -13,8 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.zerock.ticketapiserver.domain.Goods;
+import org.zerock.ticketapiserver.dto.ReservedSeatDTO;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -115,4 +117,15 @@ public class GoodsRepositoryTests {
 
         result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
     }
+
+    //예약 된 좌석 목록
+    @Test
+    @Transactional
+    public void testReservedSeat() {
+        Long gno = 16L;
+        String time = "08:20";
+        List<String> result = goodsRepository.selectReservedSeat(gno, time);
+        log.info("Reserved seats: {}", result);
+    }
+
 }
