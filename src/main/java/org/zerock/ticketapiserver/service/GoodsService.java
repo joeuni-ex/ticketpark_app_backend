@@ -1,9 +1,7 @@
 package org.zerock.ticketapiserver.service;
 
 import jakarta.transaction.Transactional;
-import org.zerock.ticketapiserver.dto.GoodsDTO;
-import org.zerock.ticketapiserver.dto.PageRequestDTO;
-import org.zerock.ticketapiserver.dto.PageResponseDTO;
+import org.zerock.ticketapiserver.dto.*;
 
 @Transactional
 public interface GoodsService {
@@ -11,6 +9,9 @@ public interface GoodsService {
     PageResponseDTO<GoodsDTO> getList(PageRequestDTO pageRequestDTO);
 
     Long register(GoodsDTO goodsDTO);
+
+    //예약 된 좌석 조회
+    ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO);
 
     GoodsDTO get(Long gno);
 

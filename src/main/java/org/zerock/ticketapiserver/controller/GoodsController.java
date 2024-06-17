@@ -3,10 +3,7 @@ package org.zerock.ticketapiserver.controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.zerock.ticketapiserver.dto.GoodsDTO;
-import org.zerock.ticketapiserver.dto.PageRequestDTO;
-import org.zerock.ticketapiserver.dto.PageResponseDTO;
-import org.zerock.ticketapiserver.dto.ReservationDTO;
+import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.service.GoodsService;
 import org.zerock.ticketapiserver.util.CustomFileUtil;
 
@@ -74,6 +71,11 @@ public class GoodsController {
 
   }
 
+  //예약 된 좌석 조회
+  @PostMapping("/reserved-seats")
+  public ReservedSeatResponseDTO getReservedSeats(ReservedSeatRequestDTO reservedSeatRequestDTO) {
+    return goodsService.selectReservedSeat(reservedSeatRequestDTO);
+  }
 
 
   //수정

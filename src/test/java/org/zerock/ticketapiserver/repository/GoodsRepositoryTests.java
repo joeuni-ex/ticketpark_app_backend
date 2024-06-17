@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.zerock.ticketapiserver.domain.Goods;
-import org.zerock.ticketapiserver.dto.ReservedSeatDTO;
 
 import java.util.Arrays;
 import java.util.List;

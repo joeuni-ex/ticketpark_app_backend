@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.Goods;
 import org.zerock.ticketapiserver.domain.GoodsImage;
 import org.zerock.ticketapiserver.domain.GoodsTime;
-import org.zerock.ticketapiserver.dto.GoodsDTO;
-import org.zerock.ticketapiserver.dto.PageRequestDTO;
-import org.zerock.ticketapiserver.dto.PageResponseDTO;
+import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.repository.GoodsRepository;
 
 import java.util.List;
@@ -98,15 +96,25 @@ public class GoodsServiceImpl implements GoodsService {
         return gno;
     }
 
-    //조회
+    //예약 된 좌석 조회
+    @Override
+    public ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO) {
+        List<String> reservedSeats = goodsRepository.selectReservedSeat(reservedSeatRequestDTO.getGno(), reservedSeatRequestDTO.getTime());
+        return ReservedSeatResponseDTO.builder()
+                .reservedSeats(reservedSeats)
+                .build();
+    }
+
+    //예약된 좌석 조회
     @Override
     public GoodsDTO get(Long gno) {
 
-        //이미지 
+        //이미지
         Optional<Goods> result = goodsRepository.selectOneWithImages(gno);
         Goods goods = result.orElseThrow();
         return entityToDto(goods);
     }
+
 
 
     //삭제
