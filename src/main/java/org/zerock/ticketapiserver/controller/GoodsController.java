@@ -71,11 +71,8 @@ public class GoodsController {
 
   }
 
-  //예약 된 좌석 조회
-  @PostMapping("/reserved-seats")
-  public ReservedSeatResponseDTO getReservedSeats(ReservedSeatRequestDTO reservedSeatRequestDTO) {
-    return goodsService.selectReservedSeat(reservedSeatRequestDTO);
-  }
+
+
 
 
   //수정

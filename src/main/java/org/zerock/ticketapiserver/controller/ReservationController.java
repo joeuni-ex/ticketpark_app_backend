@@ -89,6 +89,11 @@ public class ReservationController {
 
     }
 
+    //예약 된 좌석 조회
+  @PostMapping("/reserved-seats")
+  public ReservedSeatResponseDTO getReservedSeats(ReservedSeatRequestDTO reservedSeatRequestDTO) {
+    return reservationService.selectReservedSeat(reservedSeatRequestDTO);
+  }
 
 
 

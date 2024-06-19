@@ -1,10 +1,7 @@
 package org.zerock.ticketapiserver.service;
 
 import jakarta.transaction.Transactional;
-import org.zerock.ticketapiserver.dto.PageRequestDTO;
-import org.zerock.ticketapiserver.dto.PageResponseDTO;
-import org.zerock.ticketapiserver.dto.ReservationDTO;
-import org.zerock.ticketapiserver.dto.ReservationListDTO;
+import org.zerock.ticketapiserver.dto.*;
 
 import java.util.List;
 
@@ -24,4 +21,7 @@ public interface ReservationService {
 
     //예약 취소
     void modifyCancelFlag(Long rno, boolean cancelFlag);
+
+    //예약 된 좌석 조회
+    ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO);
 }

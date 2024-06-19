@@ -142,9 +142,6 @@ public class Goods {
         this.timeList.clear();
     }
 
-    public void setTimeList(List<GoodsTime> timeList) {
-        this.timeList = timeList;
-    }
 
     //데이터를 삭제 하는 것이 아닌 삭제 플래그의 값을 변경
     public void changeDel(boolean delFlag){

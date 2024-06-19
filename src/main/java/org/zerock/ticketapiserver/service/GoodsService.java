@@ -10,9 +10,6 @@ public interface GoodsService {
 
     Long register(GoodsDTO goodsDTO);
 
-    //예약 된 좌석 조회
-    ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO);
-
     GoodsDTO get(Long gno);
 
     @Transactional

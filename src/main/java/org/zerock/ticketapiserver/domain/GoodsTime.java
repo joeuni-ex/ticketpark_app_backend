@@ -12,8 +12,6 @@ import lombok.*;
 public class GoodsTime {
 
 
-    private String date;
-
     private String time;
 
 

@@ -13,7 +13,6 @@ import org.zerock.ticketapiserver.domain.GoodsImage;
 import org.zerock.ticketapiserver.domain.GoodsTime;
 import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.repository.GoodsRepository;
-import org.zerock.ticketapiserver.util.GoodsTimeGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -91,22 +90,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Long register(GoodsDTO goodsDTO) {
         Goods goods = dtoToEntity(goodsDTO);
-        // Generate GoodsTimes
-        List<GoodsTime> goodsTimes = GoodsTimeGenerator.generateGoodsTimes(goodsDTO.getStartDate(), goodsDTO.getEndDate(), goodsDTO.getTimes());
-        goods.setTimeList(goodsTimes);
 
         Long gno = goodsRepository.save(goods).getGno();
 
         return gno;
-    }
-
-    //예약 된 좌석 조회
-    @Override
-    public ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO) {
-        List<String> reservedSeats = goodsRepository.selectReservedSeat(reservedSeatRequestDTO.getGno(), reservedSeatRequestDTO.getTime(), reservedSeatRequestDTO.getTime());
-        return ReservedSeatResponseDTO.builder()
-                .reservedSeats(reservedSeats)
-                .build();
     }
 
     //조회
@@ -170,10 +157,6 @@ public class GoodsServiceImpl implements GoodsService {
             uploadTimes.forEach(goods::addTimes);
         }
 
-        // 변경된 시작날짜, 종료날짜, 시간을 반영하여 GoodsTime 리스트를 재생성
-        List<GoodsTime> updatedGoodsTimes = GoodsTimeGenerator.generateGoodsTimes(goodsDTO.getStartDate(), goodsDTO.getEndDate(), goodsDTO.getTimes());
-        goods.setTimeList(updatedGoodsTimes);
-
         //저장
         goodsRepository.save(goods);
 
@@ -204,10 +187,10 @@ public class GoodsServiceImpl implements GoodsService {
         }
 
         //공연 시간표
-        List<GoodsTime> goodsTimes = GoodsTimeGenerator.generateGoodsTimes(goodsDTO.getStartDate(), goodsDTO.getEndDate(), goodsDTO.getTimes());
-        goods.setTimeList(goodsTimes);
-
-
+        List<String> times = goodsDTO.getTimes();
+        if (times != null && !times.isEmpty()) {
+            times.forEach(goods::addTimes);
+        }
         return goods;
     }
 

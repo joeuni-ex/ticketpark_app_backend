@@ -96,6 +96,20 @@ public class ReservationServiceImpl implements ReservationService {
 
 
 
+    //예약 된 좌석 조회
+    @Override
+    public ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO) {
+        List<String> reservedSeats = reservationRepository.selectReservedSeat(reservedSeatRequestDTO.getGno(),
+                reservedSeatRequestDTO.getTime(),
+                reservedSeatRequestDTO.getDate()
+        );
+        return ReservedSeatResponseDTO.builder()
+                .reservedSeats(reservedSeats)
+                .build();
+    }
+
+
+
     // DTO -> 엔티티 변환 (저장 시 사용)
     private Reservation dtoToEntity(ReservationDTO reservationDTO) {
 

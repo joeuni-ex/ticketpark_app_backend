@@ -31,6 +31,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("update Reservation r set r.cancelFlag = :cancelFlag where r.rno = :rno")
     void updateToCancel(@Param("rno") Long rno, @Param("cancelFlag") boolean cancelFlag);
 
+    //현재 예약된 좌석 조회
+    @Query("select distinct s.seatNumber from Reservation r " +
+            "join r.seat s " +
+            "where r.goods.gno = :gno and s.cancelFlag = false and r.time =:time and r.reservationDate = :date ")
+    List<String> selectReservedSeat(@Param("gno") Long gno, @Param("time") String time, @Param("date") String date);
 
+//    select distinct s.seat_number from tbl_reservation as r
+//    join tbl_seat as s
+//    where r.goods_gno = 3 and s.cancel_flag = false and r.time = "10:20" and r.reservation_date = "2024-06-19";
 
 }
