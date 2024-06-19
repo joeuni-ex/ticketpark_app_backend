@@ -11,6 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 public class GoodsTime {
 
+
+    private String date;
+
     private String time;
 
 

@@ -13,6 +13,7 @@ import org.zerock.ticketapiserver.domain.GoodsImage;
 import org.zerock.ticketapiserver.domain.GoodsTime;
 import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.repository.GoodsRepository;
+import org.zerock.ticketapiserver.util.GoodsTimeGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -90,6 +91,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Long register(GoodsDTO goodsDTO) {
         Goods goods = dtoToEntity(goodsDTO);
+        // Generate GoodsTimes
+        List<GoodsTime> goodsTimes = GoodsTimeGenerator.generateGoodsTimes(goodsDTO.getStartDate(), goodsDTO.getEndDate(), goodsDTO.getTimes());
+        goods.setTimeList(goodsTimes);
 
         Long gno = goodsRepository.save(goods).getGno();
 
@@ -105,7 +109,7 @@ public class GoodsServiceImpl implements GoodsService {
                 .build();
     }
 
-    //예약된 좌석 조회
+    //조회
     @Override
     public GoodsDTO get(Long gno) {
 
@@ -159,13 +163,16 @@ public class GoodsServiceImpl implements GoodsService {
             uploadFileNames.forEach(goods::addImageString);
         }
 
+
         List<String> uploadTimes = goodsDTO.getTimes();
-
         goods.clearTimeList();
-
         if (uploadTimes != null && !uploadTimes.isEmpty()) {
             uploadTimes.forEach(goods::addTimes);
         }
+
+        // 변경된 시작날짜, 종료날짜, 시간을 반영하여 GoodsTime 리스트를 재생성
+        List<GoodsTime> updatedGoodsTimes = GoodsTimeGenerator.generateGoodsTimes(goodsDTO.getStartDate(), goodsDTO.getEndDate(), goodsDTO.getTimes());
+        goods.setTimeList(updatedGoodsTimes);
 
         //저장
         goodsRepository.save(goods);
@@ -197,10 +204,9 @@ public class GoodsServiceImpl implements GoodsService {
         }
 
         //공연 시간표
-        List<String> times = goodsDTO.getTimes();
-        if (times != null && !times.isEmpty()) {
-            times.forEach(goods::addTimes);
-        }
+        List<GoodsTime> goodsTimes = GoodsTimeGenerator.generateGoodsTimes(goodsDTO.getStartDate(), goodsDTO.getEndDate(), goodsDTO.getTimes());
+        goods.setTimeList(goodsTimes);
+
 
         return goods;
     }
