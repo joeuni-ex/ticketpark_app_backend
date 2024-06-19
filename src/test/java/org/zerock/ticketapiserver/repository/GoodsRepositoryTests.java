@@ -121,9 +121,10 @@ public class GoodsRepositoryTests {
     @Test
     @Transactional
     public void testReservedSeat() {
-        Long gno = 16L;
-        String time = "08:20";
-        List<String> result = goodsRepository.selectReservedSeat(gno, time);
+        Long gno = 1L;
+        String time = "11:20";
+        String date = "2024-07-09";
+        List<String> result = goodsRepository.selectReservedSeat(gno, time,date);
         log.info("Reserved seats: {}", result);
     }
 

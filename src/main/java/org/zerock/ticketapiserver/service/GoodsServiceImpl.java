@@ -103,7 +103,7 @@ public class GoodsServiceImpl implements GoodsService {
     //예약 된 좌석 조회
     @Override
     public ReservedSeatResponseDTO selectReservedSeat(ReservedSeatRequestDTO reservedSeatRequestDTO) {
-        List<String> reservedSeats = goodsRepository.selectReservedSeat(reservedSeatRequestDTO.getGno(), reservedSeatRequestDTO.getTime());
+        List<String> reservedSeats = goodsRepository.selectReservedSeat(reservedSeatRequestDTO.getGno(), reservedSeatRequestDTO.getTime(), reservedSeatRequestDTO.getTime());
         return ReservedSeatResponseDTO.builder()
                 .reservedSeats(reservedSeats)
                 .build();

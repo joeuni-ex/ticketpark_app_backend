@@ -24,8 +24,8 @@ public interface GoodsRepository extends JpaRepository<Goods,Long> {
     Optional<Goods> selectOneWithTimes(@Param("gno") Long gno);
 
     //현재 예약된 좌석 조회
-    @Query("select s.seatNumber from Seat s join s.goods g join g.timeList t where g.gno = :gno and s.cancelFlag = false and t.time = :time ")
-    List<String> selectReservedSeat(@Param("gno") Long gno, @Param("time") String time);
+    @Query("select s.seatNumber from Seat s join s.goods g join g.timeList t where g.gno = :gno and s.cancelFlag = false and t.time = :time and t.date = :date")
+    List<String> selectReservedSeat(@Param("gno") Long gno, @Param("time") String time, @Param("date") String date);
 
     //delFlag -> true로 변경하여 삭제처리
     @Modifying

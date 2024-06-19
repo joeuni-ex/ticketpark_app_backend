@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ReservedSeatRequestDTO {
 
     private Long gno;
-
+    private String date;
     private String time;
 
 }
