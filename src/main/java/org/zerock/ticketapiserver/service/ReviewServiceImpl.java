@@ -6,8 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.*;
 import org.zerock.ticketapiserver.dto.ReviewDTO;
+import org.zerock.ticketapiserver.dto.ReviewListDTO;
 import org.zerock.ticketapiserver.repository.ReviewRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,10 +45,16 @@ public class ReviewServiceImpl implements ReviewService {
 
         Review review = result.get();
 
-        review.changeIncreaseLikes(review.getLikes());
+        review.changeIncreaseLikes(review.getLikes()+1);
 
         reviewRepository.save(review);
 
+    }
+
+    //유저 별 리뷰 목록
+    @Override
+    public List<ReviewListDTO> getReviews(String email) {
+        return reviewRepository.getReviewsOfReviewDtoByEmail(email);
     }
 
 
@@ -59,6 +67,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (result.isPresent()) {
             Review review = result.get();
             review.changeContent(reviewDTO.getContent());
+            review.changeGrade(reviewDTO.getGrade());
 
             reviewRepository.save(review);
 
@@ -96,6 +105,8 @@ public class ReviewServiceImpl implements ReviewService {
                 .content(reviewDTO.getContent())
                 .likes(reviewDTO.getLikes())
                 .createDate(reviewDTO.getCreateDate())
+                .deleteFlag(reviewDTO.isDeleteFlag())
+                .grade(reviewDTO.getGrade())
                 .build();
 
         return review;
@@ -112,6 +123,8 @@ public class ReviewServiceImpl implements ReviewService {
                 .content(review.getContent())
                 .likes(review.getLikes())
                 .createDate(review.getCreateDate())
+                .deleteFlag(review.isDeleteFlag())
+                .grade(review.getGrade())
                 .build();
 
 

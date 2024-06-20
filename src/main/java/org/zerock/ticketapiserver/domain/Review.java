@@ -24,6 +24,8 @@ public class Review {
     private String content; //예약일자
     
     private int likes; //좋아요
+    
+    private int grade;//평점
 
     @ManyToOne
     @JoinColumn(name = "member_owner")//컬럼명을 사용하는 이유는 인덱스를 사용하기 위해서
@@ -48,7 +50,7 @@ public class Review {
     //likes +1
     public void changeIncreaseLikes
             (int likes){
-        this.likes =likes+1;
+        this.likes =likes;
     }
 
     //컨텐츠 수정
@@ -56,8 +58,13 @@ public class Review {
         this.content = content;
     }
 
-    //컨텐츠 수정
+    //삭제
     public void changeDeleteFlag(boolean deleteFlag){
         this.deleteFlag = deleteFlag;
+    }
+
+    //평점수정
+    public void  changeGrade(int grade){
+        this.grade = grade;
     }
 }

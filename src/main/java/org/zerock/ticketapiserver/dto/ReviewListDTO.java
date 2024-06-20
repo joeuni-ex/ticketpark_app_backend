@@ -1,7 +1,5 @@
 package org.zerock.ticketapiserver.dto;
 
-
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDTO {
+public class ReviewListDTO {
 
     private Long reno;
 
@@ -23,19 +21,13 @@ public class ReviewDTO {
 
     private int grade;//평점
 
-    private String email;//리뷰 작성한 회원
 
-    private Long gno;//
+    private Long gno;
+
+    private String goods_title;
 
     private LocalDate createDate;
 
     private boolean deleteFlag;
-
-
-    @PrePersist
-    protected void onCreate() {
-        this.createDate = LocalDate.now();
-    }
-
 
 }

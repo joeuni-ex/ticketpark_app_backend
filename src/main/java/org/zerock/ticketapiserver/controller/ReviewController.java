@@ -5,10 +5,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.ticketapiserver.domain.Review;
-import org.zerock.ticketapiserver.dto.ReservationDTO;
-import org.zerock.ticketapiserver.dto.ReviewDTO;
+import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.service.ReviewService;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,7 +38,7 @@ public class ReviewController {
     @PostMapping("/increase-likes/{reno}")
     public Map<String,String> changeIncreaseLikes(@PathVariable("reno") Long reno) {
 
-        reviewService.changeIncreaseLikes(reno); //좌석 추가
+        reviewService.changeIncreaseLikes(reno); //좋아요 추가
 
         return Map.of("RESULT","SUCCESS");
     }
@@ -61,5 +62,18 @@ public class ReviewController {
         return Map.of("RESULT","SUCCESS");
 
     }
+
+
+    // 목록 조회
+    @GetMapping("/list")
+    @PreAuthorize("#email == authentication.name") //현재 로그인한 사용자와 dto의 email 이 동일해야 사용가능함
+    public List<ReviewListDTO> list(String email) {
+
+        log.info(email);
+
+        return reviewService.getReviews(email);
+
+    }
+
 
 }
