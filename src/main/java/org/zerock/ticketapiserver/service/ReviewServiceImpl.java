@@ -1,5 +1,6 @@
 package org.zerock.ticketapiserver.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,17 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+
+    //리뷰 조회
+    @Override
+    public ReviewDTO get(Long reno) {
+
+        Optional<Review> result = reviewRepository.findById(reno);
+
+        Review review = result.orElseThrow();
+
+        return entityToDto(review);
+    }
 
     //추가
     @Override
@@ -37,11 +49,40 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    
-    
 
-    
-    
+    //수정
+    @Override
+    public void modify(ReviewDTO reviewDTO) {
+       Optional<Review> result = reviewRepository.findById(reviewDTO.getReno());
+
+
+        if (result.isPresent()) {
+            Review review = result.get();
+            review.changeContent(reviewDTO.getContent());
+
+            reviewRepository.save(review);
+
+        } else {
+            throw new IllegalArgumentException("Review not found for ID: " + reviewDTO.getReno());
+        }
+
+    }
+
+
+    //리뷰 삭제
+    @Override
+    @Transactional
+    public void modifyDeleteFlag(Long reno, boolean cancelFlag) {
+        reviewRepository.updateToDelete(reno, cancelFlag);
+    }
+
+
+
+
+
+
+
+
 
     // DTO -> 엔티티 변환 (저장 시 사용)
     private Review dtoToEntity(ReviewDTO reviewDTO) {

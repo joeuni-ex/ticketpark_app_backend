@@ -27,6 +27,8 @@ public class ReviewDTO {
 
     private LocalDate createDate;
 
+    private boolean deleteFlag;
+
 
     @PrePersist
     protected void onCreate() {

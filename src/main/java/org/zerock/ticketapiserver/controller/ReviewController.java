@@ -2,10 +2,9 @@ package org.zerock.ticketapiserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.zerock.ticketapiserver.domain.Review;
 import org.zerock.ticketapiserver.dto.ReservationDTO;
 import org.zerock.ticketapiserver.dto.ReviewDTO;
 import org.zerock.ticketapiserver.service.ReviewService;
@@ -41,6 +40,26 @@ public class ReviewController {
         reviewService.changeIncreaseLikes(reno); //좌석 추가
 
         return Map.of("RESULT","SUCCESS");
+    }
+
+    //수정 or 리뷰삭제
+    @PreAuthorize("#reviewDTO.email == authentication.name") //현재 로그인한 사용자와 dto의 email 이 동일해야 사용가능함
+    @PutMapping("/{reno}")
+    public Map<String, String> modify(@PathVariable Long reno,  ReviewDTO reviewDTO){
+
+
+        // 예약 취소
+        if (reviewDTO.isDeleteFlag()) {
+            ReviewDTO review = reviewService.get(reno);
+            reviewService.modifyDeleteFlag(reno, reviewDTO.isDeleteFlag());
+        }
+        // 예약 변경
+        else {
+            reviewService.modify(reviewDTO); // 리뷰삭제
+        }
+
+        return Map.of("RESULT","SUCCESS");
+
     }
 
 }

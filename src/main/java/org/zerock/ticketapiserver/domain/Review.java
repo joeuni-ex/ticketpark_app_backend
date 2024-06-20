@@ -36,6 +36,10 @@ public class Review {
     @Column(nullable = false, updatable = false)
     private LocalDate createDate;
 
+
+    private boolean deleteFlag; //리뷰 삭제 여부
+
+
     @PrePersist
     protected void onCreate() {
         this.createDate = LocalDate.now();
@@ -47,4 +51,13 @@ public class Review {
         this.likes =likes+1;
     }
 
+    //컨텐츠 수정
+    public void changeContent(String content){
+        this.content = content;
+    }
+
+    //컨텐츠 수정
+    public void changeDeleteFlag(boolean deleteFlag){
+        this.deleteFlag = deleteFlag;
+    }
 }
