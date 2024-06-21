@@ -66,8 +66,8 @@ public class ReviewController {
 
     // 목록 조회
     @GetMapping("/list")
-    @PreAuthorize("#email == authentication.name") //현재 로그인한 사용자와 dto의 email 이 동일해야 사용가능함
-    public List<ReviewListDTO> list(String email) {
+    public List<ReviewListDTO> list(Principal principal) {
+        String email = principal.getName(); // 현재 로그인 중인 유저의 정보
 
         log.info(email);
 
