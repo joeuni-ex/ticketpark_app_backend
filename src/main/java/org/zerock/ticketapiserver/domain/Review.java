@@ -10,9 +10,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"owner","goods"})
+@ToString(exclude = {"owner","goods", "reservation"})
 @Table(name = "tbl_review", indexes = { //인덱스 생성 -> 조회 편리
         @Index(columnList = "member_owner", name = "idx_member_email_review"),
+        @Index(columnList = "reservation_rno", name = "idx_reservation_rno_review"),
         @Index(columnList = "goods_gno", name = "idx_goodsitem_gno_review"),
 })
 public class Review {
@@ -30,6 +31,11 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "member_owner")//컬럼명을 사용하는 이유는 인덱스를 사용하기 위해서
     private Member owner;// 예약 회원
+
+    @OneToOne
+    @JoinColumn(name = "reservation_rno")
+    private Reservation reservation;
+
 
     @ManyToOne
     @JoinColumn(name = "goods_gno")

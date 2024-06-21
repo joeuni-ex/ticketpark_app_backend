@@ -23,6 +23,8 @@ public class ReviewDTO {
 
     private int grade;//평점
 
+    private Long rno;
+
     private String email;//리뷰 작성한 회원
 
     private Long gno;//

@@ -19,8 +19,12 @@ public class ReviewListDTO {
 
     private int likes; //좋아요
 
+
     private int grade;//평점
 
+    private String reservationDate;
+
+    private String imageFile; //이미지
 
     private Long gno;
 

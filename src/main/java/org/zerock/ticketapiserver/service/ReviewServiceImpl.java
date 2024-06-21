@@ -97,10 +97,12 @@ public class ReviewServiceImpl implements ReviewService {
     private Review dtoToEntity(ReviewDTO reviewDTO) {
 
         Member member = Member.builder().email(reviewDTO.getEmail()).build();
+        Reservation reservation = Reservation.builder().rno(reviewDTO.getRno()).build();
         Goods goods = Goods.builder().gno(reviewDTO.getGno()).build();
 
         Review review = Review.builder()
                 .owner(member)
+                .reservation(reservation)
                 .goods(goods)
                 .content(reviewDTO.getContent())
                 .likes(reviewDTO.getLikes())
@@ -119,6 +121,7 @@ public class ReviewServiceImpl implements ReviewService {
         ReviewDTO reviewDTO = ReviewDTO.builder()
                 .reno(review.getReno())
                 .email(review.getOwner().getEmail())
+                .rno(review.getReservation().getRno())
                 .gno(review.getGoods().getGno())
                 .content(review.getContent())
                 .likes(review.getLikes())
