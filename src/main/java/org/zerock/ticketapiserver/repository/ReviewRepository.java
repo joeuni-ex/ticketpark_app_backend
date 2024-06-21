@@ -21,7 +21,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     //유저 별 리뷰 정보
     @Query("select " +
-            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content , re.likes,re.grade ,re.reservation.reservationDate ,gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
+            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content , re.owner.nickname, re.likes,re.grade ,re.reservation.reservationDate ,gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
             "from Review re " +
             "join re.goods g " +
             "join g.imageList gi " +
@@ -34,7 +34,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     //유저 별 리뷰 정보
     @Query("select " +
-            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content , re.likes,re.grade ,re.reservation.reservationDate ,gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
+            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content ,re.owner.nickname , re.likes,re.grade ,re.reservation.reservationDate ,gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
             "from Review re " +
             "join re.goods g " +
             "join g.imageList gi " +

@@ -24,6 +24,14 @@ public class ReviewController {
 
     private final ReservationService reservationService;
 
+    //조회
+    @GetMapping("/{reno}")
+    public ReviewDTO read(@PathVariable("reno") Long reno){
+
+        return reviewService.get( reno);
+
+    }
+
 
     //리뷰 추가
     @PostMapping("/")
@@ -31,11 +39,7 @@ public class ReviewController {
 
         ReservationDTO reservationDTO = reservationService.get(reviewDTO.getRno());
 
-        log.info(reviewDTO);
-
         reviewDTO.setGno(reservationDTO.getGno());
-
-        log.info(reviewDTO);
 
         reviewService.register(reviewDTO); //좌석 추가
 

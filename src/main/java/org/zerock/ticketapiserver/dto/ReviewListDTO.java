@@ -16,6 +16,8 @@ public class ReviewListDTO {
 
     private String content; //예약일자
 
+    private String nickname;
+
     private int likes; //좋아요
 
 
@@ -34,10 +36,11 @@ public class ReviewListDTO {
     private boolean deleteFlag;
 
 
-    public ReviewListDTO(Long reno,String content,int likes,int grade,String reservationDate,String imageFile, Long gno,String goods_title,LocalDate createDate,boolean deleteFlag) {
+    public ReviewListDTO(Long reno,String content,String nickname, int likes,int grade,String reservationDate,String imageFile, Long gno,String goods_title,LocalDate createDate,boolean deleteFlag) {
 
         this.reno = reno;
         this.content = content;
+        this.nickname = nickname;
         this.likes = likes;
         this.grade = grade;
         this.reservationDate = reservationDate;
