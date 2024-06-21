@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.ticketapiserver.domain.Review;
 import org.zerock.ticketapiserver.dto.*;
+import org.zerock.ticketapiserver.service.ReservationService;
 import org.zerock.ticketapiserver.service.ReviewService;
 
 import java.security.Principal;
@@ -21,10 +22,18 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    private final ReservationService reservationService;
+
 
     //리뷰 추가
     @PostMapping("/")
     public Map<String,String> register(ReviewDTO reviewDTO ) {
+
+        ReservationDTO reservationDTO = reservationService.get(reviewDTO.getRno());
+
+        log.info(reviewDTO);
+
+        reviewDTO.setGno(reservationDTO.getGno());
 
         log.info(reviewDTO);
 
@@ -72,6 +81,7 @@ public class ReviewController {
         log.info(email);
 
         return reviewService.getReviews(email);
+
 
     }
 

@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ReviewListDTO {
 
     private Long reno;
@@ -33,5 +32,22 @@ public class ReviewListDTO {
     private LocalDate createDate;
 
     private boolean deleteFlag;
+
+
+    public ReviewListDTO(Long reno,String content,int likes,int grade,String reservationDate,String imageFile, Long gno,String goods_title,LocalDate createDate,boolean deleteFlag) {
+
+        this.reno = reno;
+        this.content = content;
+        this.likes = likes;
+        this.grade = grade;
+        this.reservationDate = reservationDate;
+        this.imageFile = imageFile;
+        this.gno = gno;
+        this.goods_title = goods_title;
+        this.createDate = createDate;
+        this.deleteFlag = deleteFlag;
+
+    }
+
 
 }

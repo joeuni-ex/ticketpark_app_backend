@@ -19,15 +19,14 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     void updateToDelete(@Param("reno") Long reno, @Param("deleteFlag") boolean deleteFlag);
 
     @Query("select " +
-            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content , re.likes,re.grade ,r.reservationDate , gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
+            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content , re.likes,re.grade ,re.reservation.reservationDate ,gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
             "from Review re " +
-            "join Reservation r " +
             "join re.goods g " +
-            "left join g.imageList gi " +
+            "join g.imageList gi " +
             "where gi.ord = 0 " +
             "and re.owner.email = :email " +
             "and re.deleteFlag = false " +
             "order by re.reno desc")
-    List<ReviewListDTO> getReviewsOfReviewDtoByEmail(@Param("email") String email); //email을 가지고 예약목록 가져오기
+    List<ReviewListDTO> getReviewsOfReviewDtoByEmail(@Param("email") String email); //email을 가지고 리뷰 목록 가져오기
 
 }
