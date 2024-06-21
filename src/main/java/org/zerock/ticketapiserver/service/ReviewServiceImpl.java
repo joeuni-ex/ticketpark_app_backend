@@ -57,6 +57,13 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.getReviewsOfReviewDtoByEmail(email);
     }
 
+    //굿즈 별 리뷰 목록
+    @Override
+    public List<ReviewListDTO> getReviewsOfGoods(Long gno) {
+        return reviewRepository.getReviewsOfReviewDtoByGno(gno);
+    }
+
+
 
     //수정
     @Override

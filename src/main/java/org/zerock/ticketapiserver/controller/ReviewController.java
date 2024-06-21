@@ -87,7 +87,7 @@ public class ReviewController {
     @GetMapping("/list/{gno}")
     public List<ReviewListDTO> ListOfGoods(@PathVariable Long gno) {
 
-        return reviewService.getReviews(gno);
+        return reviewService.getReviewsOfGoods(gno);
 
 
     }

@@ -24,6 +24,9 @@ public interface ReviewService {
     //유저 별 리뷰 목록
     List<ReviewListDTO> getReviewsOfMemeber(String email);
 
+    //굿즈 별 리뷰 목록
+    List<ReviewListDTO> getReviewsOfGoods(Long gno);
+
     //수정
     void modify(ReviewDTO reviewDTO);
 
