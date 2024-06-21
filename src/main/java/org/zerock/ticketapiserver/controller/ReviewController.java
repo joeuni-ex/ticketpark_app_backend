@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.zerock.ticketapiserver.domain.Review;
 import org.zerock.ticketapiserver.dto.*;
 import org.zerock.ticketapiserver.repository.ReviewRepository;
+import org.zerock.ticketapiserver.service.LikeService;
 import org.zerock.ticketapiserver.service.ReservationService;
 import org.zerock.ticketapiserver.service.ReviewService;
 
@@ -24,7 +25,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     private final ReservationService reservationService;
-    private final ReviewRepository reviewRepository;
+
+    private final LikeService likeService;
 
     //조회
     @GetMapping("/{reno}")
@@ -55,7 +57,7 @@ public class ReviewController {
 
         String email = principal.getName(); // 현재 로그인 중인 유저의 정보
 
-        reviewService.changeLikes(reno,email); //좋아요 추가
+        likeService.changeLikes(reno,email); //좋아요 추가
 
         return Map.of("RESULT","SUCCESS");
     }
