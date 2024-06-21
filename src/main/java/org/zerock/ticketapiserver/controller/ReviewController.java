@@ -75,12 +75,19 @@ public class ReviewController {
 
     // 목록 조회
     @GetMapping("/list")
-    public List<ReviewListDTO> list(Principal principal) {
+    public List<ReviewListDTO> listOfMember(Principal principal) {
         String email = principal.getName(); // 현재 로그인 중인 유저의 정보
 
-        log.info(email);
+        return reviewService.getReviewsOfMemeber(email);
 
-        return reviewService.getReviews(email);
+
+    }
+
+    // 굿즈별 목록 조회
+    @GetMapping("/list/{gno}")
+    public List<ReviewListDTO> ListOfGoods(@PathVariable Long gno) {
+
+        return reviewService.getReviews(gno);
 
 
     }

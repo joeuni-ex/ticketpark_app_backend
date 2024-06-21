@@ -32,7 +32,7 @@ public class Review {
     @JoinColumn(name = "member_owner")//컬럼명을 사용하는 이유는 인덱스를 사용하기 위해서
     private Member owner;// 예약 회원
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "reservation_rno")
     private Reservation reservation;
 

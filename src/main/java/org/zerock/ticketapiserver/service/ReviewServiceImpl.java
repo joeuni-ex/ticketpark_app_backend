@@ -53,7 +53,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //유저 별 리뷰 목록
     @Override
-    public List<ReviewListDTO> getReviews(String email) {
+    public List<ReviewListDTO> getReviewsOfMemeber(String email) {
         return reviewRepository.getReviewsOfReviewDtoByEmail(email);
     }
 

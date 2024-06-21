@@ -20,8 +20,9 @@ public interface ReviewService {
     //좋아요 +1추가
     void changeIncreaseLikes(Long reno);
 
+
     //유저 별 리뷰 목록
-    List<ReviewListDTO> getReviews(String email);
+    List<ReviewListDTO> getReviewsOfMemeber(String email);
 
     //수정
     void modify(ReviewDTO reviewDTO);
