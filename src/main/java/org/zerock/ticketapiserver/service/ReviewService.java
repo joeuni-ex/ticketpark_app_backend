@@ -16,10 +16,8 @@ public interface ReviewService {
     //추가
     void register(ReviewDTO reviewDTO);
 
-
-    //좋아요 +1추가
-    void changeIncreaseLikes(Long reno);
-
+    //좋아요 없으면 추가 , 있으면 삭제
+    void changeLikes(Long reno, String email);
 
     //유저 별 리뷰 목록
     List<ReviewListDTO> getReviewsOfMemeber(String email);

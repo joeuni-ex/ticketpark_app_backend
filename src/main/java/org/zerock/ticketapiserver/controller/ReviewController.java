@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.ticketapiserver.domain.Review;
 import org.zerock.ticketapiserver.dto.*;
+import org.zerock.ticketapiserver.repository.ReviewRepository;
 import org.zerock.ticketapiserver.service.ReservationService;
 import org.zerock.ticketapiserver.service.ReviewService;
 
@@ -23,6 +24,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     private final ReservationService reservationService;
+    private final ReviewRepository reviewRepository;
 
     //조회
     @GetMapping("/{reno}")
@@ -47,14 +49,18 @@ public class ReviewController {
     }
 
 
-    //좋아요 1추가
-    @PostMapping("/increase-likes/{reno}")
-    public Map<String,String> changeIncreaseLikes(@PathVariable("reno") Long reno) {
+    //좋아요 추가 및 삭제
+    @PostMapping("/likes/{reno}")
+    public Map<String,String> changeLikes(@PathVariable("reno") Long reno , Principal principal) {
 
-        reviewService.changeIncreaseLikes(reno); //좋아요 추가
+        String email = principal.getName(); // 현재 로그인 중인 유저의 정보
+
+        reviewService.changeLikes(reno,email); //좋아요 추가
 
         return Map.of("RESULT","SUCCESS");
     }
+
+
 
     //수정 or 리뷰삭제
     @PreAuthorize("#reviewDTO.email == authentication.name") //현재 로그인한 사용자와 dto의 email 이 동일해야 사용가능함
