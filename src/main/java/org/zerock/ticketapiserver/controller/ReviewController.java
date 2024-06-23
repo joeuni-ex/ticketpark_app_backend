@@ -3,6 +3,7 @@ package org.zerock.ticketapiserver.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.zerock.ticketapiserver.domain.Review;
 import org.zerock.ticketapiserver.dto.*;
@@ -95,14 +96,17 @@ public class ReviewController {
 
     }
 
-    // 굿즈별 목록 조회
+    //굿즈 별 리뷰 목록조회(비회원,회원별 좋아요 여부 체크 가능)
     @GetMapping("/list/{gno}")
-    public List<ReviewListDTO> ListOfGoods(@PathVariable Long gno) {
+    public List<?> listOfGoods(@PathVariable Long gno, ReviewDTO reviewDTO) {
 
-        return reviewService.getReviewsOfGoods(gno);
+        if (reviewDTO.getEmail() != null) {
+            String email = reviewDTO.getEmail(); //현재 로그인 중인 유저의 정보가 있으면 특정리 리뷰의 좋아요 여부 체크
+            return reviewService.getReviewsWithLikeStatus(gno, email);
+        } else {
 
-
+            return reviewService.getReviewsOfGoods(gno);
+        }
     }
-
 
 }

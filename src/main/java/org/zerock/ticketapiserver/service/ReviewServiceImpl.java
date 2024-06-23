@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.*;
 import org.zerock.ticketapiserver.dto.ReviewDTO;
 import org.zerock.ticketapiserver.dto.ReviewListDTO;
+import org.zerock.ticketapiserver.dto.ReviewWithLikeStatusDTO;
 import org.zerock.ticketapiserver.repository.LikeRepository;
 import org.zerock.ticketapiserver.repository.ReviewRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -20,7 +23,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-
+    private final LikeRepository likeRepository;
 
     //리뷰 조회
     @Override
@@ -32,6 +35,9 @@ public class ReviewServiceImpl implements ReviewService {
 
         return entityToDto(review);
     }
+
+
+
 
     //추가
     @Override
@@ -53,6 +59,38 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewListDTO> getReviewsOfGoods(Long gno) {
         return reviewRepository.getReviewsOfReviewDtoByGno(gno);
+    }
+
+    //로그인 한 유저의 굿즈 별 리뷰 목록
+    @Override
+    public List<ReviewWithLikeStatusDTO> getReviewsWithLikeStatus(Long gno, String email) {
+        List<Review> reviews = reviewRepository.findByGoodsGno(gno);
+
+        List<Long> reviewIds = reviews.stream()
+                .map(Review::getReno)
+                .collect(Collectors.toList());
+
+        List<Like> likes = likeRepository.findByOwnerEmailAndReviewRenoIn(email, reviewIds);
+
+        return reviews.stream()
+                .map(review -> {
+                    boolean liked = likes.stream().anyMatch(like -> like.getReview().getReno().equals(review.getReno()));
+                    return new ReviewWithLikeStatusDTO(
+                            review.getReno(),
+                            review.getContent(),
+                            review.getOwner().getNickname(),
+                            review.getLikes(),
+                            review.getGrade(),
+                            review.getReservation().getReservationDate(),
+                            review.getGoods().getImageList().stream().filter(img -> img.getOrd() == 0).findFirst().orElse(null).getFileName(),
+                            review.getGoods().getGno(),
+                            review.getGoods().getTitle(),
+                            review.getCreateDate(),
+                            review.isDeleteFlag(),
+                            liked
+                    );
+                })
+                .collect(Collectors.toList());
     }
 
 
@@ -83,12 +121,6 @@ public class ReviewServiceImpl implements ReviewService {
     public void modifyDeleteFlag(Long reno, boolean cancelFlag) {
         reviewRepository.updateToDelete(reno, cancelFlag);
     }
-
-
-
-
-
-
 
 
 
