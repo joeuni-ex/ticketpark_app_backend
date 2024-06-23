@@ -4,11 +4,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.zerock.ticketapiserver.domain.Like;
 import org.zerock.ticketapiserver.domain.Review;
+import org.zerock.ticketapiserver.dto.CheckWrittenReviewDTO;
 import org.zerock.ticketapiserver.dto.ReviewDTO;
 import org.zerock.ticketapiserver.dto.ReviewListDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
@@ -51,4 +54,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "and re.deleteFlag = false " +
             "order by re.reno desc")
     List<ReviewListDTO> getReviewsOfReviewDtoByGno(@Param("gno") Long gno); //gno를 가지고 리뷰 목록 가져오기
+
+
+    //특정 예약에 리뷰 작성했는지 여부 체크
+    @Query("select re from Review re where re.reservation.rno = :rno")
+    Optional<Review> findByReservation(@Param("rno") Long rno);
+
+
 }

@@ -96,7 +96,7 @@ public class CustomFileUtil {
 
     if(!resource.isReadable()){
         //default값
-        resource = new FileSystemResource(uploadPath+File.separator+"default.jpg");
+        resource = new FileSystemResource(uploadPath+File.separator+"default_image.png");
     }
 
         HttpHeaders headers = new HttpHeaders();

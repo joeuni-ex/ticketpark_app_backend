@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.zerock.ticketapiserver.domain.*;
+import org.zerock.ticketapiserver.dto.CheckWrittenReviewDTO;
 import org.zerock.ticketapiserver.dto.ReviewDTO;
 import org.zerock.ticketapiserver.dto.ReviewListDTO;
 import org.zerock.ticketapiserver.dto.ReviewWithLikeStatusDTO;
@@ -12,7 +13,6 @@ import org.zerock.ticketapiserver.repository.LikeRepository;
 import org.zerock.ticketapiserver.repository.ReviewRepository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -93,6 +93,20 @@ public class ReviewServiceImpl implements ReviewService {
                 .collect(Collectors.toList());
     }
 
+
+    //특정 예약 rno에 리뷰를 작성했는지 체크
+    @Override
+    public CheckWrittenReviewDTO checkWrittenReview(CheckWrittenReviewDTO checkWrittenReviewDTO) {
+
+        Optional<Review> result = reviewRepository.findByReservation(checkWrittenReviewDTO.getRno());
+
+        CheckWrittenReviewDTO resultDTO = CheckWrittenReviewDTO.builder()
+                .rno(checkWrittenReviewDTO.getRno())
+                .writtenReview(result.isPresent())
+                .build();
+
+        return resultDTO;
+    }
 
 
     //수정

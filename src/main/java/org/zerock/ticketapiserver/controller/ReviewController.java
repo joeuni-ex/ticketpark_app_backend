@@ -88,8 +88,8 @@ public class ReviewController {
 
     // 목록 조회
     @GetMapping("/list")
-    public List<ReviewListDTO> listOfMember(Principal principal) {
-        String email = principal.getName(); // 현재 로그인 중인 유저의 정보
+    public List<ReviewListDTO> listOfMember(MemberEmailDTO memberEmailDTO) {
+        String email = memberEmailDTO.getEmail(); // 현재 로그인 중인 유저의 정보
 
         return reviewService.getReviewsOfMemeber(email);
 
@@ -98,15 +98,24 @@ public class ReviewController {
 
     //굿즈 별 리뷰 목록조회(비회원,회원별 좋아요 여부 체크 가능)
     @GetMapping("/list/{gno}")
-    public List<?> listOfGoods(@PathVariable Long gno, ReviewDTO reviewDTO) {
+    public List<?> listOfGoods(@PathVariable Long gno, MemberEmailDTO memberEmailDTO) {
 
-        if (reviewDTO.getEmail() != null) {
-            String email = reviewDTO.getEmail(); //현재 로그인 중인 유저의 정보가 있으면 특정리 리뷰의 좋아요 여부 체크
+        log.info("memberEmailDTO: " + memberEmailDTO);
+        if (memberEmailDTO.getEmail() != null) {
+            String email = memberEmailDTO.getEmail(); //현재 로그인 중인 유저의 정보가 있으면 특정리 리뷰의 좋아요 여부 체크
             return reviewService.getReviewsWithLikeStatus(gno, email);
         } else {
-
             return reviewService.getReviewsOfGoods(gno);
         }
+    }
+
+    //조회 - 예약 번호 별 리뷰를 작성했는지 여부 체크
+    @GetMapping("/check-review")
+    public CheckWrittenReviewDTO checkWrittenReview(CheckWrittenReviewDTO checkWrittenReviewDTO){
+
+        log.info("checkWrittenReviewDTO: " + checkWrittenReviewDTO);
+        return reviewService.checkWrittenReview(checkWrittenReviewDTO);
+
     }
 
 }
