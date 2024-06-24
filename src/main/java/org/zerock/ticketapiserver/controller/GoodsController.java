@@ -63,6 +63,17 @@ public class GoodsController {
 
   }
 
+  //검색 목록 조회
+  @GetMapping("/list/search")
+  public PageResponseDTO<GoodsDTO> searchList(PageRequestDTO pageRequestDTO,@RequestParam(name = "search") String search) {
+
+    log.info("search " + search);
+
+    return goodsService.getSearchList(pageRequestDTO,search);
+
+  }
+
+
   //조회
   @GetMapping("/{gno}")
   public GoodsDTO read(@PathVariable("gno") Long gno){
@@ -70,9 +81,6 @@ public class GoodsController {
     return goodsService.get(gno);
 
   }
-
-
-
 
 
   //수정

@@ -39,6 +39,11 @@ public interface GoodsRepository extends JpaRepository<Goods,Long> {
     Page<Object[]> selectListOfGenre(Pageable pageable,@Param("genre") String genre);
 
 
+    //검색어를 통한 상품 목록(상품과 상품 이미지 , 페이지 타입으로 ,검색어 포함)
+    @Query("select g, gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false and g.title like %:search%")
+    Page<Object[]> selectListOfSearch(Pageable pageable, @Param("search") String search);
+
+
 
 
 }

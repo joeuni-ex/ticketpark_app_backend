@@ -61,6 +61,9 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.getReviewsOfReviewDtoByGno(gno);
     }
 
+
+
+
     //로그인 한 유저의 굿즈 별 리뷰 목록
     @Override
     public List<ReviewWithLikeStatusDTO> getReviewsWithLikeStatus(Long gno, String email) {

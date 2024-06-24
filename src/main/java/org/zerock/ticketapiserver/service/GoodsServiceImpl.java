@@ -86,6 +86,62 @@ public class GoodsServiceImpl implements GoodsService {
                 .build();
     }
 
+
+    //검색 목록
+    @Override
+    public PageResponseDTO<GoodsDTO> getSearchList(PageRequestDTO pageRequestDTO,String search) {
+
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage()-1, // 0부터 시작하니가 -1
+                pageRequestDTO.getSize(),
+                Sort.by("gno").descending());
+
+        Page<Object[]> result;
+
+        log.info(pageRequestDTO);
+
+        result = goodsRepository.selectListOfSearch(pageable, search);
+
+        //map을 이용해서 DTO로 변환하기
+        List<GoodsDTO> dtoList = result.get().map(arr ->{
+
+            GoodsDTO goodsDTO =null;
+
+
+            Goods goods = (Goods) arr[0];
+            GoodsImage goodsImage = (GoodsImage) arr[1];
+
+            goodsDTO = GoodsDTO.builder()
+                    . gno(goods.getGno())
+                    .title(goods.getTitle())
+                    .gdesc(goods.getGdesc())
+                    .place(goods.getPlace())
+                    .startDate(goods.getStartDate())
+                    .endDate(goods.getEndDate())
+                    .age(goods.getAge())
+                    .runningTime(goods.getRunningTime())
+                    .genre(goods.getGenre())
+                    .exclusive(goods.isExclusive())
+                    .build();
+
+            String imageStr = goodsImage.getFileName();
+
+            goodsDTO.setUploadFileNames(List.of(imageStr));
+
+
+            return goodsDTO;
+        }).collect(Collectors.toList()); //collect(Collectors.toList()) 리스트로 바꿈
+
+        long totalCount = result.getTotalElements();
+
+
+        return PageResponseDTO.<GoodsDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+
     //추가
     @Override
     public Long register(GoodsDTO goodsDTO) {

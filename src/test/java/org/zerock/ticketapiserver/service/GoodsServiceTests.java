@@ -29,6 +29,20 @@ public class GoodsServiceTests {
 
     }
 
+    //검색 목록 테스트
+    @Test
+    public void testSearchList(){
+        String search = "콘";
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        PageResponseDTO<GoodsDTO> responseDTO = goodsService.getSearchList(pageRequestDTO,search);
+
+        log.info(responseDTO.getDtoList());
+
+    }
+
+
     //추가 테스트
     @Test
     public void testRegister(){
