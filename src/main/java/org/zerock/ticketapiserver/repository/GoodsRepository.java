@@ -34,14 +34,25 @@ public interface GoodsRepository extends JpaRepository<Goods,Long> {
     @Query("select g,gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false ")
     Page<Object[]> selectList(Pageable pageable);
 
-    //상품 목록(상품과 상품 이미지 , 페이지 타입으로 , 장르 목록)
-    @Query("select g,gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false and g.genre=:genre ")
-    Page<Object[]> selectListOfGenre(Pageable pageable,@Param("genre") String genre);
+    // 상품 목록(상품과 상품 이미지 , 페이지 타입으로 , 장르 목록)
+    @Query("select g, gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false and g.genre in :genre")
+    Page<Object[]> selectListOfGenres(Pageable pageable, @Param("genre") String genre);
+
+    //리뷰 평점 높은 순 상품 목록(상품과 상품 이미지 , 페이지 타입으로 , 리뷰 평점 순위)
+    @Query("select g, gi, avg(re.grade) as avgRating " +
+            "from Goods g " +
+            "left join g.imageList gi on gi.ord = 0 " +
+            "left join Review re on re.goods.gno = g.gno " +
+            "where g.delFlag = false " +
+            "group by g, gi " +
+            "order by avgRating desc")
+    Page<Object[]> selectListOfBestGrade(Pageable pageable);
 
 
     //검색어를 통한 상품 목록(상품과 상품 이미지 , 페이지 타입으로 ,검색어 포함)
     @Query("select g, gi from Goods g left join g.imageList gi where gi.ord = 0 and g.delFlag = false and g.title like %:search%")
     Page<Object[]> selectListOfSearch(Pageable pageable, @Param("search") String search);
+
 
 
 

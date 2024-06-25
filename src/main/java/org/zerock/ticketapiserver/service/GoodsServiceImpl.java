@@ -28,7 +28,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public PageResponseDTO<GoodsDTO> getList(PageRequestDTO pageRequestDTO) {
 
-        Pageable pageable = PageRequest.of(pageRequestDTO.getPage()-1, // 0부터 시작하니가 -1
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1, // 0부터 시작하니가 -1
                 pageRequestDTO.getSize(),
                 Sort.by("gno").descending());
 
@@ -36,27 +36,22 @@ public class GoodsServiceImpl implements GoodsService {
 
         log.info(pageRequestDTO);
 
-        if (pageRequestDTO.getGenre().equals("all")) {
+        if (pageRequestDTO.getGenre() == null || pageRequestDTO.getGenre().isEmpty() || pageRequestDTO.getGenre().contains("all")) {
             result = goodsRepository.selectList(pageable);
         } else {
-            result = goodsRepository.selectListOfGenre(pageable, pageRequestDTO.getGenre());
+            result = goodsRepository.selectListOfGenres(pageable, pageRequestDTO.getGenre());
         }
 
-        //Object[] = 0.product 1.productImage
-        //Object[] = 0.product 1.productImage
-        //Object[] = 0.product 1.productImage 과 같이 배열로 되어있음
+        // Object[] = 0.product 1.productImage
+        List<GoodsDTO> dtoList = result.get().map(arr -> {
 
-        //map을 이용해서 DTO로 변환하기
-        List<GoodsDTO> dtoList = result.get().map(arr ->{
-
-            GoodsDTO goodsDTO =null;
-
+            GoodsDTO goodsDTO = null;
 
             Goods goods = (Goods) arr[0];
             GoodsImage goodsImage = (GoodsImage) arr[1];
 
             goodsDTO = GoodsDTO.builder()
-                    . gno(goods.getGno())
+                    .gno(goods.getGno())
                     .title(goods.getTitle())
                     .gdesc(goods.getGdesc())
                     .place(goods.getPlace())
@@ -72,18 +67,70 @@ public class GoodsServiceImpl implements GoodsService {
 
             goodsDTO.setUploadFileNames(List.of(imageStr));
 
-
             return goodsDTO;
-        }).collect(Collectors.toList()); //collect(Collectors.toList()) 리스트로 바꿈
+        }).collect(Collectors.toList());
 
         long totalCount = result.getTotalElements();
-
 
         return PageResponseDTO.<GoodsDTO>withAll()
                 .dtoList(dtoList)
                 .totalCount(totalCount)
                 .pageRequestDTO(pageRequestDTO)
                 .build();
+
+    }
+
+    @Override
+    public PageResponseDTO<GoodsDTO> getBestList(PageRequestDTO pageRequestDTO) {
+
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1, // 0부터 시작하니가 -1
+                pageRequestDTO.getSize(),
+                Sort.by("gno").descending());
+
+        Page<Object[]> result;
+
+        log.info(pageRequestDTO);
+
+
+        result = goodsRepository.selectListOfBestGrade(pageable);
+
+
+        // Object[] = 0.product 1.productImage
+        List<GoodsDTO> dtoList = result.get().map(arr -> {
+
+            GoodsDTO goodsDTO = null;
+
+            Goods goods = (Goods) arr[0];
+            GoodsImage goodsImage = (GoodsImage) arr[1];
+
+            goodsDTO = GoodsDTO.builder()
+                    .gno(goods.getGno())
+                    .title(goods.getTitle())
+                    .gdesc(goods.getGdesc())
+                    .place(goods.getPlace())
+                    .startDate(goods.getStartDate())
+                    .endDate(goods.getEndDate())
+                    .age(goods.getAge())
+                    .runningTime(goods.getRunningTime())
+                    .genre(goods.getGenre())
+                    .exclusive(goods.isExclusive())
+                    .build();
+
+            String imageStr = goodsImage.getFileName();
+
+            goodsDTO.setUploadFileNames(List.of(imageStr));
+
+            return goodsDTO;
+        }).collect(Collectors.toList());
+
+        long totalCount = result.getTotalElements();
+
+        return PageResponseDTO.<GoodsDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+
     }
 
 

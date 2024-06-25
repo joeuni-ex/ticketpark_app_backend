@@ -47,25 +47,36 @@ public class GoodsServiceTests {
     @Test
     public void testRegister(){
 
-        GoodsDTO goodsDTO = GoodsDTO.builder()
-                .title("새로운 콘서트")
-                .gdesc("새로운 콘서트 내용")
-                .place("서울 콘서트장")
-                .startDate("2024-06-05")
-                .endDate("2024-06-25")
-                .genre("concert")
-                .age(15)
-                .runningTime(130)
-                .build();
+        for (int i = 0; i < 100; i++) {
+            GoodsDTO goodsDTO = GoodsDTO.builder()
+                    .title("새로운 콘서트"+i)
+                    .gdesc("새로운 콘서트 내용"+i)
+                    .place("서울 콘서트장")
+                    .startDate("2024-06-05")
+                    .endDate("2024-06-25")
+                    .genre("concert")
+                    .age(15)
+                    .exclusive(false)
+                    .runningTime(130)
+                    .build();
 
-        goodsDTO.setUploadFileNames(
+            goodsDTO.setUploadFileNames(
 
-                java.util.List.of(
-                        UUID.randomUUID()+"_"+"Test1.jpg",
-                        UUID.randomUUID()+"_"+"Test2.jpg"));
+                    java.util.List.of(
+                            UUID.randomUUID()+"_"+"Test1.jpg",
+                            UUID.randomUUID()+"_"+"Test2.jpg"));
 
-        goodsService.register(goodsDTO);
-    }
+            goodsDTO.setTimes(
+
+                    java.util.List.of(
+                            "09:30",
+                            "15:30"));
+
+            goodsService.register(goodsDTO);
+        }
+        }
+
+
 
 
 

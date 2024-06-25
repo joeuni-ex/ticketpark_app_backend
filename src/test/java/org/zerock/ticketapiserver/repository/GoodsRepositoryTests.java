@@ -117,6 +117,16 @@ public class GoodsRepositoryTests {
         result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
     }
 
+    @Test
+    public void testBestGradeList(){
+        Pageable pageable = PageRequest.of(0,10, Sort.by("gno").descending());
+
+        Page<Object[]> result = goodsRepository.selectListOfBestGrade(pageable);
+
+        result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
+    }
+
+
     //예약 된 좌석 목록
     @Test
     @Transactional

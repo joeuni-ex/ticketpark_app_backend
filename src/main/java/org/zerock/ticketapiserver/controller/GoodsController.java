@@ -63,9 +63,17 @@ public class GoodsController {
 
   }
 
+  //평점 순위 목록 조회
+  @GetMapping("/list/best")
+  public PageResponseDTO<GoodsDTO> bestList(PageRequestDTO pageRequestDTO) {
+
+    return goodsService.getBestList(pageRequestDTO);
+
+  }
+
   //검색 목록 조회
-  @GetMapping("/list/search")
-  public PageResponseDTO<GoodsDTO> searchList(PageRequestDTO pageRequestDTO,@RequestParam(name = "search") String search) {
+  @GetMapping("/list/search/{search}")
+  public PageResponseDTO<GoodsDTO> searchList(PageRequestDTO pageRequestDTO,@PathVariable("search") String search) {
 
     log.info("search " + search);
 

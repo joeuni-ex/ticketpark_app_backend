@@ -8,6 +8,8 @@ public interface GoodsService {
 
     PageResponseDTO<GoodsDTO> getList(PageRequestDTO pageRequestDTO);
 
+    PageResponseDTO<GoodsDTO> getBestList(PageRequestDTO pageRequestDTO);
+
     //검색 목록
     PageResponseDTO<GoodsDTO> getSearchList(PageRequestDTO pageRequestDTO, String search);
 
