@@ -88,13 +88,26 @@ public class ReviewController {
 
     // 목록 조회
     @GetMapping("/list")
-    public List<ReviewListDTO> listOfMember(MemberEmailDTO memberEmailDTO) {
+    public List<ReviewListDTO> list(MemberEmailDTO memberEmailDTO) {
+
         String email = memberEmailDTO.getEmail(); // 현재 로그인 중인 유저의 정보
 
-        return reviewService.getReviewsOfMemeber(email);
+        List<ReviewListDTO> result = List.of();
 
+        if(email.length() == 0){
+            log.info("관리자");
+            result = reviewService.getList(); //모든 유저 리뷰 가져오기 최신순으로
+
+        }else
+        {
+            log.info("유저");
+            result = reviewService.getReviewsOfMemeber(email); // 현재 접속중인 유저의  리뷰 가져오기
+        }
+
+        return result;
 
     }
+
 
     //굿즈 별 리뷰 목록조회(비회원,회원별 좋아요 여부 체크 가능)
     @GetMapping("/list/{gno}")

@@ -37,6 +37,17 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "join re.goods g " +
             "join g.imageList gi " +
             "where gi.ord = 0 " +
+            "and re.deleteFlag = false " +
+            "order by re.reno desc")
+    List<ReviewListDTO> getReviewsAll();
+
+    //유저 별 리뷰 정보
+    @Query("select " +
+            "new org.zerock.ticketapiserver.dto.ReviewListDTO(re.reno, re.content , re.owner.nickname, re.likes,re.grade ,re.reservation.reservationDate ,gi.fileName, g.gno, g.title, re.createDate, re.deleteFlag) " +
+            "from Review re " +
+            "join re.goods g " +
+            "join g.imageList gi " +
+            "where gi.ord = 0 " +
             "and re.owner.email = :email " +
             "and re.deleteFlag = false " +
             "order by re.reno desc")

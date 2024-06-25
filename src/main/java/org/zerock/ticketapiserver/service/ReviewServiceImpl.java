@@ -48,6 +48,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    //유저 별 리뷰 목록
+    @Override
+    public List<ReviewListDTO> getList() {
+        return reviewRepository.getReviewsAll();
+    }
+
+
 
     //유저 별 리뷰 목록
     @Override

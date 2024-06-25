@@ -19,6 +19,9 @@ public interface ReviewService {
     void register(ReviewDTO reviewDTO);
 
     //유저 별 리뷰 목록
+    List<ReviewListDTO> getList();
+
+    //유저 별 리뷰 목록
     List<ReviewListDTO> getReviewsOfMemeber(String email);
 
     //굿즈 별 리뷰 목록
