@@ -8,6 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.zerock.ticketapiserver.domain.Member;
 import org.zerock.ticketapiserver.domain.MemberRole;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Log4j2
 @SpringBootTest
 public class MemberRepositoryTests {
@@ -42,6 +47,42 @@ public class MemberRepositoryTests {
         }
 
     }
+
+
+
+    //멤버 권한 변경
+    @Test
+    public void testUpdateMember(){
+
+        String email = "test2@gmail..com";
+
+        // New roles to be assigned
+        List<String> newRoles = Collections.singletonList(MemberRole.ADMIN.name());
+
+
+        log.info(newRoles);
+
+        Member member = memberRepository.getWithRoles(email);
+
+
+        log.info(member);
+
+        if (member != null) {
+            member.clearRole();
+
+            List<MemberRole> roles = newRoles.stream()
+                    .map(MemberRole::valueOf)
+                    .collect(Collectors.toList());
+
+            roles.forEach(member::addRole);
+
+
+            log.info(member);
+            memberRepository.save(member);
+
+
+        }
+      }
 
     //조회
     @Test

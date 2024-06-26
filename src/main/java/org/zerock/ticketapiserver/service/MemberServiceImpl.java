@@ -54,6 +54,28 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
+    // 멤버 권한 변경
+    @Override
+    public void updateMemberRoles(String email, List<String> newRoles) {
+        Member member = memberRepository.getWithRoles(email);
+
+        if (member != null) {
+            member.clearRole();
+
+            List<MemberRole> roles = newRoles.stream()
+                    .map(MemberRole::valueOf)
+                    .collect(Collectors.toList());
+
+            roles.forEach(member::addRole);
+
+            log.info("Updated member roles: {}", member);
+            memberRepository.save(member);
+        } else {
+            log.warn("Member not found with email: {}", email);
+        }
+    }
+
+
     //이메일 중복 확인
     @Override
     public boolean emailDuplicates(CheckEmailDTO checkEmailDTO) {

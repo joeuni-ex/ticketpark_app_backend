@@ -5,6 +5,7 @@ import org.zerock.ticketapiserver.domain.Member;
 import org.zerock.ticketapiserver.dto.CheckEmailDTO;
 import org.zerock.ticketapiserver.dto.MemberDTO;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -12,6 +13,9 @@ public interface MemberService {
     //추가
     void register(MemberDTO memberDTO);
 
+
+    // 멤버 권한 변경
+    void updateMemberRoles(String email, List<String> newRoles);
 
     //이메일 중복 확인
     boolean emailDuplicates(CheckEmailDTO checkEmailDTO);
