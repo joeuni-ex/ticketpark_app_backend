@@ -53,7 +53,8 @@ SpringBoot + Firebase 를 활용하여 제작한 공연 예매 및 관리 웹 �
 
 ### 공연 상세페이지 
 <WEB> 
-![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/6bd00989-bf50-4be2-95f3-c6ad70ff0f82)
+
+  ![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/6bd00989-bf50-4be2-95f3-c6ad70ff0f82)
   
 
 - 공연의 상세 정보 조회
