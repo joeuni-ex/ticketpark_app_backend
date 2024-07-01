@@ -1,4 +1,4 @@
-![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/07e05159-9351-4240-a59f-35f30e23374f)# SpringBoot + React Project -TicketPark Project 
+# SpringBoot + React Project -TicketPark Project 
 SpringBoot + React + KAKAO 인증 API 를 활용한 Fullstack 반응형 웹 프로젝트 
 
 ## 💻 프로젝트 소개
