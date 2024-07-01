@@ -9,9 +9,6 @@ SpringBoot + Firebase 를 활용하여 제작한 공연 예매 및 관리 웹 �
 <WEB - 메인화면 >
 - ![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/e9f28277-fe71-48ec-83c6-d3a09cf86907)
 
-<MOBILE - 메인화면 >
-- ![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/740939b0-34c3-474e-817a-2e1753b243e4)
-
 
 ## :raising_hand:개발인원
 - 개인 프로젝트(1명)
@@ -49,8 +46,6 @@ SpringBoot + Firebase 를 활용하여 제작한 공연 예매 및 관리 웹 �
 < WEB > 
 ![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/212d18d5-4e83-4f3e-b981-d301d64cf7c4)
 
-<M0BILE>
--  ![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/7f0d790f-a9eb-4596-a1f4-d9f3cb4bdeff)
 
 - 콘서트/뮤지컬/연극/클래식 별로 조회 가능
 - 한 페이지에 10개씩 페이징 처리 최신 등록순으로 조회
