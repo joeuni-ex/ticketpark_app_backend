@@ -55,9 +55,6 @@ SpringBoot + Firebase 를 활용하여 제작한 공연 예매 및 관리 웹 �
 <WEB> 
 ![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/6bd00989-bf50-4be2-95f3-c6ad70ff0f82)
   
-<MOBILE>
-![image](https://github.com/joeuni-ex/ticketpark_app_backend/assets/141595215/0ae6eced-eb70-43d4-aa0d-20076646ee83)
-
 
 - 공연의 상세 정보 조회
 - 캘린더는 오늘 날짜부터 GOODS -> END_DATE 까지만 선택 가능
